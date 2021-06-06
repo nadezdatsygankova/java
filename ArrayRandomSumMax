@@ -1,0 +1,62 @@
+/*Lab 1. Write a program that read an integer from user, 
+create a newdouble array with a size of that integer,
+ then assign a doublerandom numbers from 0 to 100 then print all the array values,
+sum of the value and the max value. For printing use printf to print a value with two floating point
+
+
+ */
+
+package week3;
+
+import java.util.Scanner;
+
+public class Lab1 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int number;
+		// Read an integer from user
+		do {
+			System.out.println("Enter a positive number");
+
+			number = sc.nextInt();
+			System.out.println(number);
+			if (number <= 0) {
+				System.out.println("Invalid input");
+			}
+		} while (number <= 0);
+
+		// create a array with size of that integer
+		double[] newdouble;
+		newdouble = new double[number];
+		double sum = 0;
+
+		// assign a double random numbers from 0 to 100
+		for (int i = 0; i < newdouble.length; i++) {
+			newdouble[i] = Math.random() * 100;
+		}
+
+		// print all the array value
+		System.out.print("Array is [");
+		for (int i = 0; i < newdouble.length; i++) {
+			System.out.printf("%.2f", newdouble[i]);
+			if (i != (newdouble.length - 1)) {
+				System.out.print(", ");//only print "," only between numbers
+			}
+		}
+		System.out.print("]");
+		// Calculate sum of the value and the max value
+		double max = newdouble[0];// start with the first value
+		for (int i = 0; i < newdouble.length; i++) {
+			sum += newdouble[i];
+			if (max < newdouble[i]) {
+				max = newdouble[i]; // new max
+			}
+		}
+		// print sum of the value and the max value
+		System.out.print("\nSum of the value is ");
+		System.out.printf("%.2f", sum);
+		System.out.print("\nMax of the value is ");
+		System.out.printf("%.2f", max);
+
+	}
+}
