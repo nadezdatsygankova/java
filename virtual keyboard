@@ -1,0 +1,324 @@
+package Assignment3;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+public class VirKey extends JFrame  implements ActionListener{
+	
+	private JButton[] buttons; // array of buttons
+	private JButton[] buttons2; // array of buttons
+	private JButton[] buttons3; // array of buttons
+	private JButton[] buttons4; // array of buttons
+	private JButton[] buttons5; // array of buttons
+ private static final String[] names ={ "~", "1", "2", "3", "4", "5","6","7","8","9","0","-","+","Backspace" };
+ private static final String[] names2 ={ "Tab", "Q", "W", "E", "R", "T","Y","U","I","O","P","[","]","\\" };
+ private static final String[] names3 ={ "Caps", "A", "S", "D", "F", "G","H","J","K","L",":","\"","Enter",};
+ private static final String[] names4 ={ "Shift", "Z", "X", "C", "V", "B","N","M",",",".","?",""," ^", "" };
+ private static final String[] names5 ={ " ", "  ", "","<"," v", " >" };
+ private GridLayout gridLayout1; //  gridlayout
+ private JPanel panelLabel;
+ private JLabel label1;
+ private JLabel label2;
+ private JPanel area;
+ private JPanel panelButton;
+ private JPanel panelButton1;
+ private JPanel panelButton2;
+ private JPanel panelButton3;
+ private JPanel panelButton4;
+ private JPanel panelButton5;
+ private JPanel panelTextArea;
+ private JTextArea TextArea;
+ private KeyListener listener;
+ private String line1 = ""; // first line of textarea
+ 
+ 
+ public VirKey() {
+	 
+	area =new JPanel();
+	area.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
+	
+	 
+
+	 listener =new KeyListener() {
+		
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println(e);
+
+		}
+		
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println(e);
+		}
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println(e);
+			 System.out.println(e.getKeyChar());
+			 int keyCode = e.getKeyCode();
+			 System.out.println(keyCode);
+			  if (e.getKeyCode() == KeyEvent.VK_A)  {
+	                System.out.println("woot!");
+	            }
+
+		}
+	};
+	
+    this.setFocusable(true);
+    this.requestFocus();
+    this.addKeyListener(listener);
+	 
+
+	 
+	 
+	 panelLabel =new JPanel();
+		panelLabel.setLayout( new BoxLayout(panelLabel,BoxLayout.Y_AXIS));
+		label1 = new JLabel( "Type some text using your keyboard. The keys you press will be highlighted and the text will be displayed." );   
+		label2 = new JLabel( "Note: Clicking the buttons with your mouse will not perform any action." ); 
+		panelLabel.add(label1);
+		panelLabel.add(label2);	 
+		area.add(panelLabel);
+		//textArea
+		
+		panelTextArea=new JPanel();
+		panelTextArea.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+		TextArea = new JTextArea(15,70);
+		TextArea.setLineWrap(true);
+		panelTextArea.add(TextArea);
+		area.add(panelTextArea);
+		
+		//Button
+		panelButton =new JPanel();
+		panelButton.setLayout( new GridLayout(5, 1,1,0) );
+
+		
+		panelButton1 =new JPanel();
+		panelButton1.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+		panelButton.add(panelButton1);
+	 
+	
+	 
+	 buttons = new JButton[ names.length ]; // create array of JButtons
+	 
+	  for ( int count = 0; count < names.length; count++ )
+	 {
+		  if(names[count] == "Backspace")
+		  {
+			  buttons[ count ] = new JButton( names[ count ] );
+			  buttons[ count ].setPreferredSize(new Dimension(100,50));
+			  buttons[ count ].addActionListener( this ); // register listener
+			  buttons[ count ]. setMargin(new Insets(0,0,0,0));
+	          panelButton1.add( buttons[ count ] );
+		  }
+		  else {
+           buttons[ count ] = new JButton( names[ count ] );
+           buttons[ count ].setPreferredSize(new Dimension(50,50));
+          buttons[ count ].addActionListener( this ); // register listener
+		  buttons[ count ]. setMargin(new Insets(0,0,0,0));
+          panelButton1.add( buttons[ count ] ); // add button to JFrame
+		  }
+     } // end for
+	  
+	  panelButton2 =new JPanel();
+		panelButton2.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+		panelButton.add(panelButton2);
+		
+	  buttons2 = new JButton[ names2.length ]; // create array of JButtons
+		 
+	  for ( int count = 0; count < names2.length; count++ )
+	 {
+		  if(names2[count] == "Tab")
+		  {
+			  buttons2[ count ] = new JButton( names2[ count ] );
+			  buttons2[ count ].setPreferredSize(new Dimension(75,50));
+			  buttons2[ count ].addActionListener( this ); // register listener
+	          panelButton2.add( buttons2[ count ] );
+		  }
+		  else {
+           buttons2[ count ] = new JButton( names2[ count ] );
+           buttons2[ count ].setPreferredSize(new Dimension(50,50));
+          buttons2[ count ].addActionListener( this ); // register listener
+          panelButton2.add( buttons2[ count ] ); // add button to JFrame
+     } // end for
+	  
+	 }
+	  
+	  panelButton3 =new JPanel();
+		panelButton3.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+		panelButton.add(panelButton3);
+	  
+	  
+	  buttons3 = new JButton[ names3.length ]; // create array of JButtons
+		 
+	  for ( int count = 0; count < names3.length; count++ )
+	 {
+		  if(names3[count] == "Caps")
+		  {
+			  buttons3[ count ] = new JButton( names3[ count ] );
+			  buttons3[ count ].setPreferredSize(new Dimension(75,50));
+			  buttons3[ count ].addActionListener( this ); // register listener
+	          panelButton3.add( buttons3[ count ] );
+		  }
+		  else if((names3[count] == "Enter")){
+			  buttons3[ count ] = new JButton( names3[ count ] );
+			  buttons3[ count ].setPreferredSize(new Dimension(100,50));
+			  buttons3[ count ].addActionListener( this ); // register listener
+	          panelButton3.add( buttons3[ count ] );
+		  }
+		  else {
+	           buttons3[ count ] = new JButton( names3[ count ] );
+	           buttons3[ count ].setPreferredSize(new Dimension(50,50));
+	           buttons3[ count ].addActionListener( this ); // register listener
+	           panelButton3.add( buttons3[ count ] ); // add button to JFrame
+		  }
+
+     } // end for
+	  
+	  panelButton4 =new JPanel();
+		panelButton4.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+		panelButton.add(panelButton4);
+	  
+	  
+	  buttons4 = new JButton[ names4.length ]; // create array of JButtons
+		 
+	  for ( int count = 0; count < names4.length; count++ )
+	 {
+		  if(names4[count] == "Shift")
+		  {
+			  buttons4[ count ] = new JButton( names4[ count ] );
+			  buttons4[ count ].setPreferredSize(new Dimension(100,50));
+			  buttons4[ count ].addActionListener( this ); // register listener
+	          panelButton4.add( buttons4[ count ] );
+		  }else if(names4[count] == "") {
+			  panelButton4.add(Box.createRigidArea(new Dimension(25, 0)));
+		  }
+
+		  else {
+			  buttons4[ count ] = new JButton( names4[ count ] );
+			  buttons4[ count ].setPreferredSize(new Dimension(50,50));
+	          buttons4[ count ].addActionListener( this ); // register listener
+	          panelButton4.add( buttons4[ count ] ); // add button to JFrame
+		}
+           
+     } // end for
+	  panelButton5 =new JPanel();
+		panelButton5.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+		panelButton.add(panelButton5);
+	  
+	  buttons5 = new JButton[ names5.length ]; // create array of JButtons
+		 
+	  for ( int count = 0; count < names5.length; count++ )
+	 {
+		  if(names5[count] == "  ")
+		  {
+			  buttons5[ count ] = new JButton( names5[ count ] );
+			  buttons5[ count ].setPreferredSize(new Dimension(310,50));
+			  buttons5[ count ].addActionListener( this ); // register listener
+	          panelButton5.add( buttons5[ count ] );
+		  }
+		  else if(names5[count] == " ") {
+			  panelButton5.add(Box.createRigidArea(new Dimension(200, 0)));
+		  }
+		  else if(names5[count] == "") {
+			  panelButton5.add(Box.createRigidArea(new Dimension(65, 0)));
+		  }
+		  
+		  else {
+		  
+           buttons5[ count ] = new JButton( names5[ count ] );
+           buttons5[ count ].setPreferredSize(new Dimension(50,50));
+          buttons5[ count ].addActionListener( this ); // register listener
+          panelButton5.add( buttons5[ count ] ); // add button to JFrame
+     }
+	 }// end for
+	  
+	  
+	  area.add(panelButton);
+	  
+	  area.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	  setLayout( new GridLayout(1,1,5,5));
+	  this.add(area);
+	  
+	  
+		      
+	  
+	  
+	  
+   } // end GridLayoutFrame constructor
+	 
+
+ 
+ 
+	 
+ 
+	
+
+
+
+public static void main( String[] args )
+{
+  VirKey gridLayoutFrame = new VirKey();
+  gridLayoutFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+  gridLayoutFrame.setSize( 790,620 ); // set frame size
+  gridLayoutFrame.setVisible( true ); // display frame
+} // end main
+
+public void actionPerformed( ActionEvent e ) {
+
+  System.out.println(e.getSource());
+  
+  for ( int count = 0; count < buttons.length; count++ )
+  {
+	  if(e.getSource() == buttons[count] )
+	  {
+		  System.out.println("yes");
+		  buttons[count].setBackground(Color.red);
+		  line1 = buttons[count].getText();
+		  System.out.println(buttons[count].getText());
+		  line1 = String.format( "%s");
+	      TextArea.setText(line1);
+	  }
+  }
+  
+
+//  public void addText(String n) {
+//	  line1 = n;
+//      TextArea.setText(line1);
+//  }
+  
+}
+
+
+
+
+
+public void keyReleased( KeyEvent event )
+    {
+	 System.out.println(event.getKeyChar());
+      line1 = String.format( "%s");
+      TextArea.setText(line1);
+      // show pressed key
+      } // end method keyPressed
+}
