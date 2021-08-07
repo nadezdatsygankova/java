@@ -57,6 +57,7 @@ public class VirKey extends JFrame  implements ActionListener{
  private JButton buttonToHighlight;
  private boolean isCapsLockPressed = false;
  private boolean isShiftPressed = false;
+ private int key;
  
  public VirKey(String title) {
 	 
@@ -93,12 +94,12 @@ public class VirKey extends JFrame  implements ActionListener{
 //
 //		}
 //	};
-	
-//    this.setFocusable(true);
-//    this.requestFocus();
-//    this.addKeyListener(listener);
+	KeyHandler handler = new KeyHandler();
+    this.setFocusable(true);
+    this.requestFocus();
+    this.addKeyListener(handler);
 	 
-    KeyHandler handler = new KeyHandler();
+    
 	 
 	 
 	 panelLabel =new JPanel();
@@ -137,7 +138,7 @@ public class VirKey extends JFrame  implements ActionListener{
 			  buttons[ count ] = new JButton( names[ count ] );
 			  buttons[ count ].setPreferredSize(new Dimension(100,50));
 			  buttons[ count ].addActionListener( this ); // register listener
-			  buttons[ count ].addKeyListener(handler);
+//			  buttons[ count ].addKeyListener(handler);
 			  buttons[ count ]. setMargin(new Insets(0,0,0,0));
 			  originalColour = buttons[ count ].getBackground(); //get background
 	          panelButton1.add( buttons[ count ] );
@@ -148,7 +149,7 @@ public class VirKey extends JFrame  implements ActionListener{
            buttons[ count ].setPreferredSize(new Dimension(50,50));
           buttons[ count ].addActionListener( this ); // register listener
 		  buttons[ count ]. setMargin(new Insets(0,0,0,0));
-		  buttons[ count ].addKeyListener(handler);
+//		  buttons[ count ].addKeyListener(handler);
           panelButton1.add( buttons[ count ] ); // add button to JFrame
 		  }
      } // end for
@@ -212,8 +213,8 @@ public class VirKey extends JFrame  implements ActionListener{
 		panelButton4.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		panelButton.add(panelButton4);
 	  
-	  
-	  buttons4 = new JButton[ names4.length ]; // create array of JButtons
+		// create array of JButtons
+	  buttons4 = new JButton[ names4.length ]; 
 		 
 	  for ( int count = 0; count < names4.length; count++ )
 	 {
@@ -285,9 +286,80 @@ public class VirKey extends JFrame  implements ActionListener{
  private class KeyHandler implements KeyListener{
 	 @Override
 	 public void keyPressed(KeyEvent event){
-         theChar = event.getKeyCode();
-         System.out.println(event.getKeyCode());
-         buttonToHighlight.setBackground(Color.GREEN);
+         key = event.getKeyCode();
+         System.out.println("------------");
+         System.out.println("1: "+event.getKeyCode());//49
+         System.out.println("2: "+event.getKeyChar());//1
+         System.out.println("3: "+KeyEvent.getKeyText(key));//1
+         for ( int count = 0; count < buttons.length; count++ )
+         {
+        	 System.out.println("3-1: "+buttons[count].getText());
+       	  if(KeyEvent.getKeyText(key) == buttons[count].getText() )
+       	  {
+       		  System.out.println("yes get source");
+//       		  buttons[count].setBackground(Color.red);
+       		     if (buttons[count].getText()!="Backspace") {
+       		        line1 =line1+ buttons[count].getText();
+//       		        System.out.println(line1);
+       	            TextArea.setText(line1);
+       	  }
+       		     else {
+       		    	 line1=removeLastChar(line1); 
+       		    	 TextArea.setText(line1);//use backspace
+       		  }
+              }
+         }     
+         
+         
+         
+         switch(key){
+         case KeyEvent.VK_SPACE:
+        	 line1 =space(line1);
+	    	 TextArea.setText(line1);
+
+             break;
+         case KeyEvent.VK_BACK_SPACE:
+        	 line1=removeLastChar(line1); 
+	    	 TextArea.setText(line1);//use backspace
+
+	    	 break;
+         case KeyEvent.VK_TAB:
+//        	 line1=tab(line1); 
+//	    	 TextArea.setText(line1);//use tab
+	    	 System.out.println("work");
+	    	 break;
+         case KeyEvent.VK_CAPS_LOCK:
+        	 System.out.println("workCap");
+        	 break;
+         case KeyEvent.VK_ENTER:
+        	 line1 =enter(line1);
+	    	 TextArea.setText(line1);
+	    	 System.out.println("Enter");
+	    	 break;
+        	 
+         case KeyEvent.VK_SHIFT:
+	    	 isShiftPressed = true;
+	    	 line1 =shift(line1);
+	    	 TextArea.setText(line1);
+	    	 break;
+         case KeyEvent.VK_UP:
+        	 break;
+         case KeyEvent.VK_LEFT:
+//        	 data.moveCursorBy(-1);
+        	 break;
+         case KeyEvent.VK_DOWN:
+        	 break;
+         case KeyEvent.VK_RIGHT:
+  
+             break;
+         default:
+        	 line1 =line1+ event.getKeyChar();
+ 	        System.out.println(line1);
+          TextArea.setText(line1);//get the constant
+     } 
+         
+        
+        
          
  }
 
@@ -320,14 +392,14 @@ public static void main( String[] args )
 @Override
 public void actionPerformed( ActionEvent e ) {
 
-  System.out.println(e.getSource());
+  System.out.println("4: " +e.getSource());
   
   for ( int count = 0; count < buttons.length; count++ )
   {
 	  if(e.getSource() == buttons[count] )
 	  {
 		  System.out.println("yes");
-		  buttons[count].setBackground(Color.red);
+//		  buttons[count].setBackground(Color.red);
 		     if (buttons[count].getText()!="Backspace") {
 		        line1 =line1+ buttons[count].getText();
 		        System.out.println(line1);
@@ -345,7 +417,7 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons2[count] )
 	  {
 		  System.out.println("yes");
-		  buttons2[count].setBackground(Color.red);
+//		  buttons2[count].setBackground(Color.red);
 		     if (buttons2[count].getText()!="Tab") {
 		        line1 =line1+ buttons2[count].getText();
 		        System.out.println(line1);
@@ -362,7 +434,7 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons3[count] )
 	  {
 		  System.out.println("yes");
-		  buttons3[count].setBackground(Color.red);
+//		  buttons3[count].setBackground(Color.red);
 		     if (buttons3[count].getText()=="Enter") { //enter
 		    	 line1 =enter(line1);
 		    	 TextArea.setText(line1);
@@ -386,7 +458,7 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons4[count] )
 	  {
 		  System.out.println("yes");
-		  buttons4[count].setBackground(Color.red);
+//		  buttons4[count].setBackground(Color.red);
 		     if (buttons4[count].getText()=="Shift") { //enter
 		    	 isShiftPressed = true;
 		    	 line1 =shift(line1);
@@ -394,7 +466,7 @@ public void actionPerformed( ActionEvent e ) {
 		     }
 		     
 		     
-		     else if  (buttons4[count].getText()=="^") {
+		     else if  (buttons4[count].getText()=="^ ") {
 		    	  //arrow up
 		    //???
 	  }
@@ -410,7 +482,7 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons5[count] )
 	  {
 		  System.out.println("yes");
-		  buttons5[count].setBackground(Color.red);
+//		  buttons5[count].setBackground(Color.red);
 		     if (buttons5[count].getText()=="  ") { //enter
 		    	 line1 =space(line1);
 		    	 TextArea.setText(line1);
@@ -458,7 +530,7 @@ public void actionPerformed( ActionEvent e ) {
 
 public void keyReleased( KeyEvent event )
     {
-	 System.out.println(event.getKeyChar());
+	 System.out.println("6:"+event.getKeyChar());
       line1 = String.format( "%s");
       TextArea.setText(line1);
       // show pressed key
