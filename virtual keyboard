@@ -21,6 +21,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import com.sun.javafx.scene.EnteredExitedHandler;
+
+
+
+
 public class VirKey extends JFrame  implements ActionListener{
 	
 	private JButton[] buttons; // array of buttons
@@ -48,49 +53,52 @@ public class VirKey extends JFrame  implements ActionListener{
  private JTextArea TextArea;
  private KeyListener listener;
  private String line1 = ""; // first line of textarea
+ private Color originalColour;
+ private JButton buttonToHighlight;
+ private boolean isCapsLockPressed = false;
+ private boolean isShiftPressed = false;
  
- 
- public VirKey() {
+ public VirKey(String title) {
 	 
 	area =new JPanel();
 	area.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
 	
 	 
 
-	 listener =new KeyListener() {
-		
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println(e);
-
-		}
-		
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println(e);
-		}
-		
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println(e);
-			 System.out.println(e.getKeyChar());
-			 int keyCode = e.getKeyCode();
-			 System.out.println(keyCode);
-			  if (e.getKeyCode() == KeyEvent.VK_A)  {
-	                System.out.println("woot!");
-	            }
-
-		}
-	};
+//	 listener =new KeyListener() {
+//		
+//		@Override
+//		public void keyTyped(KeyEvent e) {
+//			// TODO Auto-generated method stub
+//			System.out.println(e);
+//
+//		}
+//		
+//		@Override
+//		public void keyReleased(KeyEvent e) {
+//			// TODO Auto-generated method stub
+//			System.out.println(e);
+//		}
+//		
+//		@Override
+//		public void keyPressed(KeyEvent e) {
+//			// TODO Auto-generated method stub
+//			System.out.println(e);
+//			 System.out.println(e.getKeyChar());
+//			 int keyCode = e.getKeyCode();
+//			 System.out.println(keyCode);
+//			  if (e.getKeyCode() == KeyEvent.VK_A)  {
+//	                System.out.println("woot!");
+//	            }
+//
+//		}
+//	};
 	
-    this.setFocusable(true);
-    this.requestFocus();
-    this.addKeyListener(listener);
+//    this.setFocusable(true);
+//    this.requestFocus();
+//    this.addKeyListener(listener);
 	 
-
+    KeyHandler handler = new KeyHandler();
 	 
 	 
 	 panelLabel =new JPanel();
@@ -121,7 +129,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	
 	 
 	 buttons = new JButton[ names.length ]; // create array of JButtons
-	 
+
 	  for ( int count = 0; count < names.length; count++ )
 	 {
 		  if(names[count] == "Backspace")
@@ -129,14 +137,18 @@ public class VirKey extends JFrame  implements ActionListener{
 			  buttons[ count ] = new JButton( names[ count ] );
 			  buttons[ count ].setPreferredSize(new Dimension(100,50));
 			  buttons[ count ].addActionListener( this ); // register listener
+			  buttons[ count ].addKeyListener(handler);
 			  buttons[ count ]. setMargin(new Insets(0,0,0,0));
+			  originalColour = buttons[ count ].getBackground(); //get background
 	          panelButton1.add( buttons[ count ] );
+	          
 		  }
 		  else {
            buttons[ count ] = new JButton( names[ count ] );
            buttons[ count ].setPreferredSize(new Dimension(50,50));
           buttons[ count ].addActionListener( this ); // register listener
 		  buttons[ count ]. setMargin(new Insets(0,0,0,0));
+		  buttons[ count ].addKeyListener(handler);
           panelButton1.add( buttons[ count ] ); // add button to JFrame
 		  }
      } // end for
@@ -261,7 +273,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	  setLayout( new GridLayout(1,1,5,5));
 	  this.add(area);
 	  
-	  
+	  this.setTitle(title);
 		      
 	  
 	  
@@ -270,8 +282,27 @@ public class VirKey extends JFrame  implements ActionListener{
 	 
 
  
- 
-	 
+ private class KeyHandler implements KeyListener{
+	 @Override
+	 public void keyPressed(KeyEvent event){
+         theChar = event.getKeyCode();
+         System.out.println(event.getKeyCode());
+         buttonToHighlight.setBackground(Color.GREEN);
+         
+ }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+ } 
  
 	
 
@@ -279,12 +310,14 @@ public class VirKey extends JFrame  implements ActionListener{
 
 public static void main( String[] args )
 {
-  VirKey gridLayoutFrame = new VirKey();
+  VirKey gridLayoutFrame = new VirKey("Typing Tutor");
   gridLayoutFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
   gridLayoutFrame.setSize( 790,620 ); // set frame size
   gridLayoutFrame.setVisible( true ); // display frame
 } // end main
 
+
+@Override
 public void actionPerformed( ActionEvent e ) {
 
   System.out.println(e.getSource());
@@ -295,12 +328,121 @@ public void actionPerformed( ActionEvent e ) {
 	  {
 		  System.out.println("yes");
 		  buttons[count].setBackground(Color.red);
-		  line1 = buttons[count].getText();
-		  System.out.println(buttons[count].getText());
-		  line1 = String.format( "%s");
-	      TextArea.setText(line1);
+		     if (buttons[count].getText()!="Backspace") {
+		        line1 =line1+ buttons[count].getText();
+		        System.out.println(line1);
+	            TextArea.setText(line1);
 	  }
+		     else {
+		    	 line1=removeLastChar(line1); 
+		    	 TextArea.setText(line1);//use backspace
+		  }
+       }
   }
+  
+  for ( int count = 0; count < buttons2.length; count++ )
+  {
+	  if(e.getSource() == buttons2[count] )
+	  {
+		  System.out.println("yes");
+		  buttons2[count].setBackground(Color.red);
+		     if (buttons2[count].getText()!="Tab") {
+		        line1 =line1+ buttons2[count].getText();
+		        System.out.println(line1);
+	            TextArea.setText(line1);
+	  }
+		     else {
+		    	 line1=tab(line1); 
+		    	 TextArea.setText(line1);//use backspace
+		  }
+       }
+  }
+  for ( int count = 0; count < buttons3.length; count++ )
+  {
+	  if(e.getSource() == buttons3[count] )
+	  {
+		  System.out.println("yes");
+		  buttons3[count].setBackground(Color.red);
+		     if (buttons3[count].getText()=="Enter") { //enter
+		    	 line1 =enter(line1);
+		    	 TextArea.setText(line1);
+		     }
+		     
+		     
+		     else if  (buttons3[count].getText()=="Caps") {
+		    	  isCapsLockPressed = true;
+		    //???
+	  }
+		     else {
+		    	 line1 =line1+ buttons3[count].getText();
+			        System.out.println(line1);
+		            TextArea.setText(line1);
+		  }
+       }
+  }
+
+  for ( int count = 0; count < buttons4.length; count++ )
+  {
+	  if(e.getSource() == buttons4[count] )
+	  {
+		  System.out.println("yes");
+		  buttons4[count].setBackground(Color.red);
+		     if (buttons4[count].getText()=="Shift") { //enter
+		    	 isShiftPressed = true;
+		    	 line1 =shift(line1);
+		    	 TextArea.setText(line1);
+		     }
+		     
+		     
+		     else if  (buttons4[count].getText()=="^") {
+		    	  //arrow up
+		    //???
+	  }
+		     else {
+		    	 line1 =line1+ buttons4[count].getText();
+			        System.out.println(line1);
+		            TextArea.setText(line1);
+		  }
+       }
+  }
+  for ( int count = 0; count < buttons5.length; count++ )
+  {
+	  if(e.getSource() == buttons5[count] )
+	  {
+		  System.out.println("yes");
+		  buttons5[count].setBackground(Color.red);
+		     if (buttons5[count].getText()=="  ") { //enter
+		    	 line1 =space(line1);
+		    	 TextArea.setText(line1);
+		     }
+		     
+		     
+		     else {
+		    	    //<>v
+		            TextArea.setText(line1);
+		  }
+       }
+  }
+  }
+  public static String removeLastChar(String s) {
+	    return (s == null || s.length() == 0)
+	      ? null 
+	      : (s.substring(0, s.length() - 1));
+	}
+  public static String tab(String s) {
+	    return (s =s + " "+" "+" "+" " );
+	}
+  public static String enter(String s) {
+	    return (s =s + "\n");
+	} 
+  public static String shift(String s) {
+	  
+	    return (s);
+	} 
+  public static String space(String s) {
+	  
+	    return (s = s +" ");
+	} 
   
 
 //  public void addText(String n) {
@@ -308,7 +450,7 @@ public void actionPerformed( ActionEvent e ) {
 //      TextArea.setText(line1);
 //  }
   
-}
+
 
 
 
