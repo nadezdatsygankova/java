@@ -1,18 +1,23 @@
+/*//Author: Nadezda Tsygankova
+//ID: 152949194
+//Assignment#3 -Typing quickly and correctly is an essential skill for working
+ *  effectively with computers and the Internet. In this exercise you will build a GUI application that can help users learn to “touch type” (i.e. type correctly without looking at the keyboard). The application should display a virtual keyboard and should allow the user to watch what he or she is typing on the screen without looking at the actual keyboard. 
+ * Use JButtons to represent the keys.
+ * 
+ * 
+ * */
 package Assignment3;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,7 +30,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import com.sun.javafx.scene.EnteredExitedHandler;
 
 
 
@@ -42,7 +46,6 @@ public class VirKey extends JFrame  implements ActionListener{
  private static final String[] names3 ={ "Caps", "A", "S", "D", "F", "G","H","J","K","L",":","\"","Enter",};
  private static final String[] names4 ={ "Shift", "Z", "X", "C", "V", "B","N","M",",",".","?","","^", "" };
  private static final String[] names5 ={ " ", "  ", "","<","v", ">" };
- private GridLayout gridLayout1; //  gridlayout
  private JPanel panelLabel;
  private JLabel label1;
  private JLabel label2;
@@ -55,57 +58,21 @@ public class VirKey extends JFrame  implements ActionListener{
  private JPanel panelButton5;
  private JPanel panelTextArea;
  private JTextArea TextArea;
- private KeyListener listener;
  private String line1 = ""; // first line of textarea
  private Color originalColour;
  private JButton buttonColor;
- private boolean isCapsLockPressed = false;
- private boolean isShiftPressed = false;
  private int key;
  
  public VirKey(String title) {
-	 
+	 //panel for all application
 	area =new JPanel();
 	area.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
-	
-	 
-
-//	 listener =new KeyListener() {
-//		
-//		@Override
-//		public void keyTyped(KeyEvent e) {
-//			// TODO Auto-generated method stub
-//			System.out.println(e);
-//
-//		}
-//		
-//		@Override
-//		public void keyReleased(KeyEvent e) {
-//			// TODO Auto-generated method stub
-//			System.out.println(e);
-//		}
-//		
-//		@Override
-//		public void keyPressed(KeyEvent e) {
-//			// TODO Auto-generated method stub
-//			System.out.println(e);
-//			 System.out.println(e.getKeyChar());
-//			 int keyCode = e.getKeyCode();
-//			 System.out.println(keyCode);
-//			  if (e.getKeyCode() == KeyEvent.VK_A)  {
-//	                System.out.println("woot!");
-//	            }
-//
-//		}
-//	};
+	//for key events
 	KeyHandler handler = new KeyHandler();
     this.setFocusable(true);
     this.requestFocus();
     this.addKeyListener(handler);
-	 
-    
-	 
-	 
+	 //panel for labels
 	 panelLabel =new JPanel();
 		panelLabel.setLayout( new BoxLayout(panelLabel,BoxLayout.Y_AXIS));
 		label1 = new JLabel( "Type some text using your keyboard. The keys you press will be highlighted and the text will be displayed." );   
@@ -113,8 +80,8 @@ public class VirKey extends JFrame  implements ActionListener{
 		panelLabel.add(label1);
 		panelLabel.add(label2);	 
 		area.add(panelLabel);
-		//textArea
 		
+		//textArea	
 		panelTextArea=new JPanel();
 		panelTextArea.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		TextArea = new JTextArea(15,70);
@@ -122,28 +89,30 @@ public class VirKey extends JFrame  implements ActionListener{
 		panelTextArea.add(TextArea);
 		area.add(panelTextArea);
 		
-		//Button
+		//Buttons
 		panelButton =new JPanel();
 		panelButton.setLayout( new GridLayout(5, 1,1,0) );
 
-		
+		//first row
 		panelButton1 =new JPanel();
 		panelButton1.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		panelButton.add(panelButton1);
 	 
 	
-	 
+	 //add buttons for 1 row
 	 buttons = new JButton[ names.length ]; // create array of JButtons
 
 	  for ( int count = 0; count < names.length; count++ )
 	 {
 		  if(names[count] == "Backspace")
 		  {
+			  //create JButton
 			  buttons[ count ] = new JButton( names[ count ] );
+			  //put in map
 			  mp.put("VK_BACK_SPACE",  buttons[ count ]);
+			  //size for JButton
 			  buttons[ count ].setPreferredSize(new Dimension(100,50));
 			  buttons[ count ].addActionListener( this ); // register listener
-//			  buttons[ count ].addKeyListener(handler);
 			  buttons[ count ]. setMargin(new Insets(0,0,0,0));
 			  originalColour = buttons[ count ].getBackground(); //get background
 	          panelButton1.add( buttons[ count ] );
@@ -155,35 +124,35 @@ public class VirKey extends JFrame  implements ActionListener{
 	           buttons[ count ].setPreferredSize(new Dimension(50,50));
 	          buttons[ count ].addActionListener( this ); // register listener
 			  buttons[ count ]. setMargin(new Insets(0,0,0,0));
-//			  buttons[ count ].addKeyListener(handler);
-	          panelButton1.add( buttons[ count ] ); // add button to JFrame
+	          panelButton1.add( buttons[ count ] ); // add button to panelButton1
 			 
 		}
 		  else if (names[count] == "+") {
 			  buttons[ count ] = new JButton( names[ count ] );
 	           mp.put("VK_PLUS",  buttons[ count ]);
 	           buttons[ count ].setPreferredSize(new Dimension(50,50));
-	          buttons[ count ].addActionListener( this ); // register listener
+	        // register listener
+	          buttons[ count ].addActionListener( this ); 
 			  buttons[ count ]. setMargin(new Insets(0,0,0,0));
-//			  buttons[ count ].addKeyListener(handler);
-	          panelButton1.add( buttons[ count ] ); // add button to JFrame
+			// add button to panelButton1
+	          panelButton1.add( buttons[ count ] ); 
 			 
 		}else{
            buttons[ count ] = new JButton( names[ count ] );
            mp.put("VK_"+buttons[ count ].getText(), buttons[ count ]);
            buttons[ count ].setPreferredSize(new Dimension(50,50));
-          buttons[ count ].addActionListener( this ); // register listener
+          buttons[ count ].addActionListener( this ); 
 		  buttons[ count ]. setMargin(new Insets(0,0,0,0));
-//		  buttons[ count ].addKeyListener(handler);
-          panelButton1.add( buttons[ count ] ); // add button to JFrame
+		// add button to panelButton1
+          panelButton1.add( buttons[ count ] ); 
 		  }
      } // end for
 	  
 	  panelButton2 =new JPanel();
 		panelButton2.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
-		panelButton.add(panelButton2);
-		
-	  buttons2 = new JButton[ names2.length ]; // create array of JButtons
+		panelButton.add(panelButton2);	
+		// create array of JButtons2
+	  buttons2 = new JButton[ names2.length ]; 
 		 
 	  for ( int count = 0; count < names2.length; count++ )
 	 {
@@ -192,46 +161,50 @@ public class VirKey extends JFrame  implements ActionListener{
 			  buttons2[ count ] = new JButton( names2[ count ] );
 			  mp.put("VK_TAB",  buttons2[ count ]);
 			  buttons2[ count ].setPreferredSize(new Dimension(75,50));
-			  buttons2[ count ].addActionListener( this ); // register listener
+			// register listener
+			  buttons2[ count ].addActionListener( this ); 
 	          panelButton2.add( buttons2[ count ] );
 		  }
 		  else if((names2[count] == "[")){
 			  buttons2[ count ] = new JButton( names2[ count ] );
 			  mp.put("VK_OPEN_BRACKET",  buttons2[ count ]);
 			  buttons2[ count ].setPreferredSize(new Dimension(50,50));
-			  buttons2[ count ].addActionListener( this ); // register listener
+			// register listener
+			  buttons2[ count ].addActionListener( this ); 
 	          panelButton2.add( buttons2[ count ] );
 		  }
 		  else if((names2[count] == "]")){
 			  buttons2[ count ] = new JButton( names2[ count ] );
 			  mp.put("VK_CLOSE_BRACKET",  buttons2[ count ]);
 			  buttons2[ count ].setPreferredSize(new Dimension(50,50));
-			  buttons2[ count ].addActionListener( this ); // register listener
+			// register listener
+			  buttons2[ count ].addActionListener( this ); 
 	          panelButton2.add( buttons2[ count ] );
 		  }
 		  else if((names2[count] == "\\")){
 			  buttons2[ count ] = new JButton( names2[ count ] );
 			  mp.put("VK_BACK_SLASH",  buttons2[ count ]);
 			  buttons2[ count ].setPreferredSize(new Dimension(50,50));
-			  buttons2[ count ].addActionListener( this ); // register listener
+			// register listener
+			  buttons2[ count ].addActionListener( this ); 
 	          panelButton2.add( buttons2[ count ] );
 		  }
 		  else {
            buttons2[ count ] = new JButton( names2[ count ] );
            mp.put("VK_"+buttons2[ count ].getText(), buttons2[ count ]);
            buttons2[ count ].setPreferredSize(new Dimension(50,50));
-          buttons2[ count ].addActionListener( this ); // register listener
-          panelButton2.add( buttons2[ count ] ); // add button to JFrame
-     } // end for
+        // register listener
+          buttons2[ count ].addActionListener( this ); 
+       // add button to panelButton1
+          panelButton2.add( buttons2[ count ] ); 
+     } 
 	  
 	 }
 	  
 	  panelButton3 =new JPanel();
 		panelButton3.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		panelButton.add(panelButton3);
-	  
-	  
-	  buttons3 = new JButton[ names3.length ]; // create array of JButtons
+	  buttons3 = new JButton[ names3.length ]; // create array of JButtons3
 		 
 	  for ( int count = 0; count < names3.length; count++ )
 	 {
@@ -240,38 +213,38 @@ public class VirKey extends JFrame  implements ActionListener{
 			  buttons3[ count ] = new JButton( names3[ count ] );
 			  mp.put("VK_CAPS_LOCK",  buttons3[ count ]);
 			  buttons3[ count ].setPreferredSize(new Dimension(75,50));
-			  buttons3[ count ].addActionListener( this ); // register listener
+			  buttons3[ count ].addActionListener( this ); 
 	          panelButton3.add( buttons3[ count ] );
 		  }
 		  else if((names3[count] == "Enter")){
 			  buttons3[ count ] = new JButton( names3[ count ] );
 			  mp.put("VK_ENTER",  buttons3[ count ]);
 			  buttons3[ count ].setPreferredSize(new Dimension(100,50));
-			  buttons3[ count ].addActionListener( this ); // register listener
+			  buttons3[ count ].addActionListener( this ); 
 	          panelButton3.add( buttons3[ count ] );
 		  }
 		  else if((names3[count] == ":")){
 			  buttons3[ count ] = new JButton( names3[ count ] );
 			  mp.put("VK_COLON",  buttons3[ count ]);
 			  buttons3[ count ].setPreferredSize(new Dimension(50,50));
-			  buttons3[ count ].addActionListener( this ); // register listener
+			  buttons3[ count ].addActionListener( this ); 
 	          panelButton3.add( buttons3[ count ] );
 		  }
 		  else {
 	           buttons3[ count ] = new JButton( names3[ count ] );
 	           mp.put("VK_"+buttons3[ count ].getText(), buttons3[ count ]);
 	           buttons3[ count ].setPreferredSize(new Dimension(50,50));
-	           buttons3[ count ].addActionListener( this ); // register listener
-	           panelButton3.add( buttons3[ count ] ); // add button to JFrame
+	           buttons3[ count ].addActionListener( this ); 
+	           panelButton3.add( buttons3[ count ] ); 
 		  }
 
-     } // end for
+     } 
 	  
 	  panelButton4 =new JPanel();
 		panelButton4.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		panelButton.add(panelButton4);
 	  
-		// create array of JButtons
+		// create array of JButtons4
 	  buttons4 = new JButton[ names4.length ]; 
 		 
 	  for ( int count = 0; count < names4.length; count++ )
@@ -315,12 +288,12 @@ public class VirKey extends JFrame  implements ActionListener{
 	          panelButton4.add( buttons4[ count ] ); // add button to JFrame
 		}
            
-     } // end for
+     } 
 	  panelButton5 =new JPanel();
 		panelButton5.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		panelButton.add(panelButton5);
-	  
-	  buttons5 = new JButton[ names5.length ]; // create array of JButtons
+		// create array of JButtons5
+	  buttons5 = new JButton[ names5.length ]; 
 		 
 	  for ( int count = 0; count < names5.length; count++ )
 	 {
@@ -329,7 +302,8 @@ public class VirKey extends JFrame  implements ActionListener{
 			  buttons5[ count ] = new JButton( names5[ count ] );
 			  mp.put("VK_SPACE",  buttons5[ count ]);
 			  buttons5[ count ].setPreferredSize(new Dimension(310,50));
-			  buttons5[ count ].addActionListener( this ); // register listener
+			// register listener
+			  buttons5[ count ].addActionListener( this ); 
 	          panelButton5.add( buttons5[ count ] );
 		  }
 		  else if(names5[count] == " ") {
@@ -343,56 +317,51 @@ public class VirKey extends JFrame  implements ActionListener{
 			  buttons5[ count ] = new JButton( names5[ count ] );
 			  mp.put("VK_LEFT",  buttons5[ count ]);
 	           buttons5[ count ].setPreferredSize(new Dimension(50,50));
-	          buttons5[ count ].addActionListener( this ); // register listener
-	          panelButton5.add( buttons5[ count ] ); // add button to JFrame
+	          buttons5[ count ].addActionListener( this ); 
+	       // add button to panelButton5
+	          panelButton5.add( buttons5[ count ] ); 
 		  }
 		  else if(names5[count]=="v") {
 			  buttons5[ count ] = new JButton( names5[ count ] );
 			  mp.put("VK_DOWN",  buttons5[ count ]);
 	           buttons5[ count ].setPreferredSize(new Dimension(50,50));
-	          buttons5[ count ].addActionListener( this ); // register listener
-	          panelButton5.add( buttons5[ count ] ); // add button to JFrame
+	          buttons5[ count ].addActionListener( this ); 
+	          panelButton5.add( buttons5[ count ] ); 
 		  }
 		  else if(names5[count]==">") {
 			  buttons5[ count ] = new JButton( names5[ count ] );
 			  mp.put("VK_RIGHT",  buttons5[ count ]);
 	           buttons5[ count ].setPreferredSize(new Dimension(50,50));
-	          buttons5[ count ].addActionListener( this ); // register listener
-	          panelButton5.add( buttons5[ count ] ); // add button to JFrame
+	          buttons5[ count ].addActionListener( this ); 
+	          panelButton5.add( buttons5[ count ] ); 
 		  }
-		  
-		  
-          
-     
-	 }// end for
+	 }
 	  
-	  
+	  //add panelButton to area
 	  area.add(panelButton);
-	  
+	  //set border
 	  area.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	  setLayout( new GridLayout(1,1,5,5));
-	  this.add(area);
-	  
+	  this.add(area);	  
 	  this.setTitle(title);
-		      
-	  
-	  
-	  
-   } // end GridLayoutFrame constructor
+ 
+   } 
 	 
 
  
  private class KeyHandler implements KeyListener{
 	 @Override
+	 //function for check keypressed
 	 public void keyPressed(KeyEvent event){
          key = event.getKeyCode();
-         System.out.println("key -"+ key);
-         
+ //compare keyEvent       
          switch(key){
          case KeyEvent.VK_SPACE:
+        	 //function for space
         	 line1 =space(line1);
+        	 //set text in textarea
 	    	 TextArea.setText(line1);
-	    	 System.out.println("i am space");
+              //change color of button
 	    	 buttonColor =mp.get("VK_SPACE");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 for (Entry<String, JButton> mp : mp.entrySet()) {
@@ -400,65 +369,72 @@ public class VirKey extends JFrame  implements ActionListener{
 	    		}
              break;
          case KeyEvent.VK_BACK_SPACE:
+        	 //function for backspace
         	 line1=removeLastChar(line1); 
-	    	 TextArea.setText(line1);//use backspace
-	    	 System.out.println("i am backspace");
+        	 //set text in textarea
+	    	 TextArea.setText(line1);
+	    	//change color of button
 	    	 buttonColor =mp.get("VK_BACK_SPACE");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 break;
          case KeyEvent.VK_TAB:
-//        	 line1=tab(line1); 
-//	    	 TextArea.setText(line1);//use tab
+        	 line1=tab(line1);
+        	 //set text in textarea
+	    	 TextArea.setText(line1);
+	    	//change color of button
         	 buttonColor =mp.get("VK_TAB");
 	    	 buttonColor.setBackground(Color.GREEN);
-	    	 System.out.println("i am tab");
 	    	 break;
          case KeyEvent.VK_CAPS_LOCK:
-        	 System.out.println("i am capslock");
         	 buttonColor =mp.get("VK_CAPS_LOCK");
 	    	 buttonColor.setBackground(Color.GREEN);
         	 break;
          case KeyEvent.VK_ENTER:
+        	 //function for enter
         	 line1 =enter(line1);
 	    	 TextArea.setText(line1);
-	    	 System.out.println("Enter");
 	    	 buttonColor =mp.get("VK_ENTER");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 break;
         	 
          case KeyEvent.VK_SHIFT:
-	    	 isShiftPressed = true;
+	    	 //function for shift
 	    	 line1 =shift(line1);
 	    	 TextArea.setText(line1);
-	    	 System.out.println("Shift");
 	    	 buttonColor =mp.get("VK_SHIFT");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 break;
          case KeyEvent.VK_UP:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_UP");
 	    	 buttonColor.setBackground(Color.GREEN);
         	 break;
          case KeyEvent.VK_LEFT:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_LEFT");
 	    	 buttonColor.setBackground(Color.GREEN);
-//        	 data.moveCursorBy(-1);
         	 break;
          case KeyEvent.VK_DOWN:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_DOWN");
 	    	 buttonColor.setBackground(Color.GREEN);
         	 break;
          case KeyEvent.VK_RIGHT:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_RIGHT");
 	    	 buttonColor.setBackground(Color.GREEN);
              break;
          case KeyEvent.VK_OPEN_BRACKET:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_OPEN_BRACKET");
 	    	 buttonColor.setBackground(Color.GREEN);
+	    	 //add text
 	    	 line1 =line1+ event.getKeyChar();
 	 	        System.out.println(line1);
 	          TextArea.setText(line1);
              break; 
          case KeyEvent.VK_CLOSE_BRACKET:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_CLOSE_BRACKET");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 line1 =line1+ event.getKeyChar();
@@ -466,6 +442,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	          TextArea.setText(line1);
              break; 
          case KeyEvent.VK_COMMA:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_COMMA");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 line1 =line1+ event.getKeyChar();
@@ -473,6 +450,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	          TextArea.setText(line1);
              break;
          case KeyEvent.VK_PERIOD:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_PERIOD");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 line1 =line1+ event.getKeyChar();
@@ -480,6 +458,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	          TextArea.setText(line1);
              break;
          case KeyEvent.VK_MINUS:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_MINUS");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 line1 =line1+ event.getKeyChar();
@@ -487,6 +466,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	          TextArea.setText(line1);
              break;
          case KeyEvent.VK_PLUS:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_PLUS");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 line1 =line1+ event.getKeyChar();
@@ -494,6 +474,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	          TextArea.setText(line1);
              break;
          case KeyEvent.VK_BACK_SLASH:
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_BACK_SLASH");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 line1 =line1+ event.getKeyChar();
@@ -501,6 +482,8 @@ public class VirKey extends JFrame  implements ActionListener{
 	          TextArea.setText(line1);
              break;
          case KeyEvent.VK_COLON:
+ 	    	//change color of button
+        	 //works with shift
         	 buttonColor =mp.get("VK_COLON");
 	    	 buttonColor.setBackground(Color.GREEN);
 	    	 line1 =line1+ event.getKeyChar();
@@ -509,12 +492,14 @@ public class VirKey extends JFrame  implements ActionListener{
              break;
              
          default:
+        	 //get a name
         	 String add = (String.valueOf(event.getKeyChar())).toUpperCase();
+ 	    	//change color of button
         	 buttonColor =mp.get("VK_"+add);
 	    	 buttonColor.setBackground(Color.GREEN);
         	 line1 =line1+ event.getKeyChar();
- 	        System.out.println(line1);
-          TextArea.setText(line1);//get the constant
+        	 //add a line1
+          TextArea.setText(line1);
      } 
          
         
@@ -530,20 +515,23 @@ public class VirKey extends JFrame  implements ActionListener{
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
+		// check when keyRealesed and change background to original
 		  key = event.getKeyCode();
 	         System.out.println("key -"+ key);
 	         
 	         switch(key){
 	         case KeyEvent.VK_SPACE:
+	        	 //change background to original
 		    	 buttonColor =mp.get("VK_SPACE");
 		    	 buttonColor.setBackground(originalColour);
 	             break;
 	         case KeyEvent.VK_BACK_SPACE:
+	        	 //change background to original
 		    	 buttonColor =mp.get("VK_BACK_SPACE");
 		    	 buttonColor.setBackground(originalColour);
 		    	 break;
 	         case KeyEvent.VK_TAB:
+	        	 //change background to original
 	        	 buttonColor =mp.get("VK_TAB");
 		    	 buttonColor.setBackground(originalColour);
 		    	 break;
@@ -567,7 +555,6 @@ public class VirKey extends JFrame  implements ActionListener{
 	         case KeyEvent.VK_LEFT:
 	        	 buttonColor =mp.get("VK_LEFT");
 		    	 buttonColor.setBackground(originalColour);
-//	        	 data.moveCursorBy(-1);
 	        	 break;
 	         case KeyEvent.VK_DOWN:
 	        	 buttonColor =mp.get("VK_DOWN");
@@ -590,6 +577,7 @@ public class VirKey extends JFrame  implements ActionListener{
 		    	 buttonColor.setBackground(originalColour);
 	             break;
 	         case KeyEvent.VK_PERIOD:
+	        	 //change background to original
 	        	 buttonColor =mp.get("VK_PERIOD");
 		    	 buttonColor.setBackground(originalColour);
 	             break;
@@ -613,6 +601,7 @@ public class VirKey extends JFrame  implements ActionListener{
 	         default:
 	        	 String add = (String.valueOf(event.getKeyChar())).toUpperCase();
 	        	 buttonColor =mp.get("VK_"+add);
+	        	 //change background to original
 		    	 buttonColor.setBackground(originalColour);	
 	}
  } 
@@ -625,28 +614,30 @@ public static void main( String[] args )
 {
   VirKey gridLayoutFrame = new VirKey("Typing Tutor");
   gridLayoutFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-  gridLayoutFrame.setSize( 790,620 ); // set frame size
-  gridLayoutFrame.setVisible( true ); // display frame
-} // end main
+//set frame size
+  gridLayoutFrame.setSize( 790,620 ); 
+//display frame
+  gridLayoutFrame.setVisible( true ); 
+} 
 
 
 @Override
 public void actionPerformed( ActionEvent e ) {
- 
+ //loop buttons 
   for ( int count = 0; count < buttons.length; count++ )
   {
 	  if(e.getSource() == buttons[count] )
 	  {
 		  System.out.println("yes");
-//		  buttons[count].setBackground(Color.red);
 		     if (buttons[count].getText()!="Backspace") {
 		        line1 =line1+ buttons[count].getText();
 		        System.out.println(line1);
 	            TextArea.setText(line1);
 	  }
 		     else {
+		    	//use backspace
 		    	 line1=removeLastChar(line1); 
-		    	 TextArea.setText(line1);//use backspace
+		    	 TextArea.setText(line1);
 		  }
        }
   }
@@ -656,15 +647,15 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons2[count] )
 	  {
 		  System.out.println("yes");
-//		  buttons2[count].setBackground(Color.red);
 		     if (buttons2[count].getText()!="Tab") {
 		        line1 =line1+ buttons2[count].getText();
 		        System.out.println(line1);
 	            TextArea.setText(line1);
 	  }
 		     else {
+		    	//use tab
 		    	 line1=tab(line1); 
-		    	 TextArea.setText(line1);//use backspace
+		    	 TextArea.setText(line1);
 		  }
        }
   }
@@ -673,7 +664,6 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons3[count] )
 	  {
 		  System.out.println("yes");
-//		  buttons3[count].setBackground(Color.red);
 		     if (buttons3[count].getText()=="Enter") { //enter
 		    	 line1 =enter(line1);
 		    	 TextArea.setText(line1);
@@ -681,12 +671,11 @@ public void actionPerformed( ActionEvent e ) {
 		     
 		     
 		     else if  (buttons3[count].getText()=="Caps") {
-		    	  isCapsLockPressed = true;
-		    //???
+		    	 TextArea.setText(line1);
+
 	  }
 		     else {
 		    	 line1 =line1+ buttons3[count].getText();
-			        System.out.println(line1);
 		            TextArea.setText(line1);
 		  }
        }
@@ -697,21 +686,17 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons4[count] )
 	  {
 		  System.out.println("yes");
-//		  buttons4[count].setBackground(Color.red);
 		     if (buttons4[count].getText()=="Shift") { //enter
-		    	 isShiftPressed = true;
 		    	 line1 =shift(line1);
 		    	 TextArea.setText(line1);
 		     }
 		     
 		     
-		     else if  (buttons4[count].getText()=="^ ") {
-		    	  //arrow up
-		    //???
+		     else if  (buttons4[count].getText()=="^") {
+		    	 TextArea.setText(line1);
 	  }
 		     else {
 		    	 line1 =line1+ buttons4[count].getText();
-			        System.out.println(line1);
 		            TextArea.setText(line1);
 		  }
        }
@@ -721,59 +706,37 @@ public void actionPerformed( ActionEvent e ) {
 	  if(e.getSource() == buttons5[count] )
 	  {
 		  System.out.println("yes");
-//		  buttons5[count].setBackground(Color.red);
 		     if (buttons5[count].getText()=="  ") { //enter
 		    	 line1 =space(line1);
 		    	 TextArea.setText(line1);
 		     }
-		     
-		     
 		     else {
-		    	    //<>v
 		            TextArea.setText(line1);
 		  }
        }
   }
   }
- 
+ //function backspace
   public static String removeLastChar(String s) {
 	    return (s == null || s.length() == 0)
 	      ? null 
 	      : (s.substring(0, s.length() - 1));
 	}
+  //function tab
   public static String tab(String s) {
 	    return (s =s + " "+" "+" "+" " );
 	}
+  //function enter
   public static String enter(String s) {
 	    return (s =s + "\n");
 	} 
-  public static String shift(String s) {
-	  
+  //function shift
+  public static String shift(String s) {  
 	    return (s);
 	} 
-  public static String space(String s) {
-	  
+  //function space
+  public static String space(String s) {	  
 	    return (s = s +" ");
 	} 
-  
- 
-//  public void addText(String n) {
-//	  line1 = n;
-//      TextArea.setText(line1);
-//  }
-  
-
-
-
-
-
-//
-//public void keyReleased( KeyEvent event )
-//    {
-//	 System.out.println("6:"+event.getKeyChar());
-//      line1 = String.format( "%s");
-//      TextArea.setText(line1);
-//      // show pressed key
-//      } // end method keyPressed
 }
 
