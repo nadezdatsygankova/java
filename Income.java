@@ -14,6 +14,7 @@ incomes, then calculate the tax.
 
 package labs;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Income {
@@ -36,8 +37,12 @@ public class Income {
 	  public double getIncome() {
 	    return income;
 	  }
-	  public void setIncome(double income) {
-	    this.income = income;
+	  //exception for negative
+	  public void setIncome(double income) throws IllegalArgumentException{
+		  if (income >= 0)
+			  this.income = income;
+			else
+				throw new IllegalArgumentException("Income cannot be negative");
 	  }
 	  public double taxCalculation (String status, double income ) {
 	    //tax for single and married filling separately
@@ -132,7 +137,7 @@ public class Income {
 	  
 	  public double CalculTax (double tax, double income )
 	  {    
-	    double result=0;    
+	    double result=0.0;    
 	    return result = (income*tax)/100 ;  
 	  }
 	  public String statusString (int n) {
@@ -161,14 +166,26 @@ public class Income {
 	    Scanner sc = new Scanner(System.in);
 	    int number =0;
 	    double incomeP = 0;
+	    boolean flag = true;
+	    boolean tr = true;
 	    //print a list for choosing Status 
 	    System.out.println("Enter your filling Status:");
 	    System.out.println("1. Single \n 2. Married Filling Jointly or Qualifying Windiw(er)"
 	        + "\n 3. Married Filling Separately"
 	        + "\n 4. Head of Household");
 	    do {
+	    	do {
+	    	try {
 	         number = sc.nextInt();
-	         //use function statusString to return a number 
+	         tr =false;
+	    	}
+	    	//exception for invalid input
+	    	catch(InputMismatchException ex) {
+	    		System.out.println("Try again");
+	    		sc.nextLine();
+	    	}
+	    	}while(tr);
+	    	//use function statusString to return a number 
 	       String status = in.statusString(number);
 	       //check for invalid input
 	       if(status == "0")
@@ -180,23 +197,32 @@ public class Income {
 	         in.setFillinStatus(status);
 	       }
 	    }while (number <1 || number >4);
+	    
 	    //input income
-	    System.out.println("Enter your income:");
 	    do {
+	    System.out.println("Enter your income:");
+	   
 	      incomeP = sc.nextDouble();
+	      try {
 	      in.setIncome(incomeP);
-	      //check for negative income
-	      if (incomeP <0) {
-	    	  System.out.println("Invalid income");
+	      flag =false;
 	      }
-	    }while(incomeP <0);
+	      catch(RuntimeException e){
+	    	  System.out.println(e);
+	    	  sc.nextLine();
+	      }
+	    }while(flag);
+	      
+	      
 	    //percent
 	    double tax =(in.taxCalculation(in.getFillinStatus(), in.getIncome()));
 	    //tax 
 	       double result = in.CalculTax(tax, incomeP);
 	       System.out.println("Your income: $" + incomeP);
 	       System.out.println("Your percent for tax: " + tax);
-	       System.out.println("Your tax: $" + result);  
+	       System.out.println("Your tax: $" + result);
+	       sc.close();
 	  }
+	  
 	}
 
