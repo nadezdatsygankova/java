@@ -1,3 +1,32 @@
+/*//Author: Nadezda Tsygankova
+//ID: 152949194
+//Final exam  -Q4
+ In this question your task is to design the following GUI. In this GUI, you are required to enter the
+SSN(Social security number) and the course ID of a specific student. The information of the SSN and the
+course ID should be saved in a table on the database called Student. Then, you can choose the columns
+in the database. Once the user enters the SSN and the course ID, clicking the show Grade button should
+get the grade of the given Student and show the grade in the console.
+ * Once you click in the show grade, on the frame, the grade should be shown as follow:
+Student_full name : Grade
+Table structure:
+First_name, Last_name, student_id, SSN, course_id, Grade
+ * 
+ * 
+ * FOR TEST
+ * 1)
+ * SSN: 111111111
+ * Course ID : 152
+ *  
+ *  Answer: Elsa Bin:A
+ * 2)
+ * SSN: 121111111
+ * Course ID : 152
+ * 
+ * Answer: Ben Rock:B
+ * */
+
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
