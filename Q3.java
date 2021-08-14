@@ -134,9 +134,10 @@ public class Q3 extends JFrame implements ActionListener {
 
 		sum1.add(labelAbCityEnter);
 		sum1.add(cityField);
-		sum1.add(buttonInformation);
+		sum1.add(buttonInformation);	
 		colom1.add(labelAbCity);
 		colom1.add(sum1);
+		colom1.setBorder(BorderFactory.createLineBorder(Color.black));
 		textfieldT.add(colom1);
 
 		// panel for information about  the record in city and specific date
@@ -198,6 +199,7 @@ public class Q3 extends JFrame implements ActionListener {
 		sum2.add(dateEnter);
 		colom2.add(labelCityDateCity);
 		colom2.add(sum2);
+		colom2.setBorder(BorderFactory.createLineBorder(Color.black));
 		textfieldT.add(colom2);
 
 		// panel for information about about record specific date
@@ -223,6 +225,7 @@ public class Q3 extends JFrame implements ActionListener {
 		sum3.add(buttonInformation3);
 		colom3.add(labelCityDate);
 		colom3.add(sum3);
+		colom3.setBorder(BorderFactory.createLineBorder(Color.black));
 		textfieldT.add(colom3);
 
 		// panel for information about record specific city
@@ -250,6 +253,7 @@ public class Q3 extends JFrame implements ActionListener {
 		sum4.add(buttonInformation4);
 		colom4.add(labelCityRec);
 		colom4.add(sum4);
+		colom4.setBorder(BorderFactory.createLineBorder(Color.black));
 		textfieldT.add(colom4);
 
 		// panel for information about  record specific type of vaccine
@@ -277,6 +281,7 @@ public class Q3 extends JFrame implements ActionListener {
 		sum5.add(buttonInformation5);
 		colom5.add(labelCityRecType);
 		colom5.add(sum5);
+		colom5.setBorder(BorderFactory.createLineBorder(Color.black));
 		textfieldT.add(colom5);
 		// add all this panel for area
 		area.add(textfieldT, BorderLayout.WEST);
@@ -395,7 +400,7 @@ public class Q3 extends JFrame implements ActionListener {
 			}
 		});
 		addInformation.add(submiteAddButton);
-
+		addInformation.setBorder(BorderFactory.createLineBorder(Color.black));
 		area.add(addInformation, BorderLayout.EAST);
 
 		this.add(area);
