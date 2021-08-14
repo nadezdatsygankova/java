@@ -1,6 +1,7 @@
 /*//Author: Nadezda Tsygankova
 //ID: 152949194
-//Final exam  -Q3
+//Final exam  -Q3  Q3.java + class Vaccine.java
+ * 
  Develop a Menu Driven 3-tier GUI application, to manage the vaccination data for covid-19
 vaccine ( You should consider the following points in your design). The design could be either
 done via JavaFx or Swing..
@@ -70,27 +71,18 @@ Vaccination records of a given type of vaccine along with total of each type of 
  * Number of vaccine ->3700
  * */
 
-
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
-
 import javax.swing.*;
+
 
 public class Q3 extends JFrame implements ActionListener {
 
 	private static Vaccine vaccineNew;
 	Map<String, ArrayList<Vaccine>> mp = new HashMap<String, ArrayList<Vaccine>>();
-	private static ArrayList<String> stringData = new ArrayList<String>();
-	private static ArrayList<String> vaccineName = new ArrayList<String>();
-	private static ArrayList<String> vaccineCity = new ArrayList<String>();
-	private static ArrayList<Integer> numberofDose = new ArrayList<Integer>();
-
 	ArrayList<Vaccine> vacineList = new ArrayList<Vaccine>();
 	private static String cityNameString;
 	private static String dateString;
@@ -105,38 +97,12 @@ public class Q3 extends JFrame implements ActionListener {
 	private JPanel area;
 	private JTextArea texArea;
 
-//	private static String[] stringData = {"02/15/2020","03/16/2020"};
-//	
-//	
-//	DateFormat format = new SimpleDateFormat("mm/dd/yyyy");
-//	Date date = format.parse(string);
-
 	public Q3(String title) {
-
-		// for test
-//		stringData.add("25/05/2021");
-//		vaccineName.add("Pfizer");
-//		vaccineCity.add("Toronto");
-//		numberofDose.add(5);
+          //add first information 
 		vaccineNew = new Vaccine("Pfizer", 4, "Toronto", "25/12/2021");
-
 		vacineList.add(vaccineNew);
 		mp.put("Toronto", vacineList);
-
-		for (String i : mp.keySet()) {
-			System.out.println(i);
-		}
-
-		for (Entry<String, ArrayList<Vaccine>> mp : mp.entrySet()) {
-			System.out.println(mp.getKey());
-
-			for (int i = 0; i < vacineList.size(); i++) {
-				System.out.println(mp.getValue().get(i).getCity());
-				System.out.println(mp.getValue().get(i).getDate());
-			}
-
-		}
-
+		
 		// panel for all application
 		area = new JPanel();
 		area.setLayout(new BorderLayout());
@@ -158,7 +124,9 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save information from city to string 
 				cityNameString = cityField.getText();
+				//use a function informationAboutVacination to find a message for users 
 				String messageString = informationAboutVacination(cityNameString);
 				texArea.setText(messageString);
 			}
@@ -171,16 +139,16 @@ public class Q3 extends JFrame implements ActionListener {
 		colom1.add(sum1);
 		textfieldT.add(colom1);
 
-		// panel for information about about record in city and specific date
+		// panel for information about  the record in city and specific date
 
 		JPanel colom2 = new JPanel();
 		colom2.setLayout(new GridLayout(2, 1));
-		JLabel labelCityDateCity = new JLabel("The record of vaccination based upon date and name of city");
+		JLabel labelCityDateCity = new JLabel("The record of vaccination is based upon the date and name of the city");
 		JPanel sum2 = new JPanel();
 		sum2.setLayout(new GridLayout(2, 2));
 		JPanel cityEnter = new JPanel();
 		cityEnter.setLayout(new FlowLayout());
-		JLabel labelAbCityEnter2 = new JLabel("Enter a city");
+		JLabel labelAbCityEnter2 = new JLabel("Enter a city (required) ");
 		JTextField cityField2 = new JTextField(10);
 		JButton buttonInformation2 = new JButton("OK");
 		buttonInformation2.addActionListener(new ActionListener() {
@@ -188,7 +156,11 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save information about city
 				cityNameString = cityField2.getText();
+				if(cityNameString=="") {
+					System.out.println("Enter a city (required)");
+				}
 			}
 		});
 		cityEnter.add(labelAbCityEnter2);
@@ -197,7 +169,7 @@ public class Q3 extends JFrame implements ActionListener {
 		sum2.add(cityEnter);
 		JPanel dateEnter = new JPanel();
 		dateEnter.setLayout(new FlowLayout());
-		JLabel labelAbDateEnter1 = new JLabel("Enter a date");
+		JLabel labelAbDateEnter1 = new JLabel("Enter a date (required) mm/dd/yyyy");
 		JTextField dateField2 = new JTextField(10);
 		JButton buttonInformation2_date = new JButton("OK");
 		buttonInformation2_date.addActionListener(new ActionListener() {
@@ -205,11 +177,18 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save information from date 
+				try {
 				dateString = dateField2.getText();
+				}
+				catch (InputMismatchException ex) {
+					System.out.println(ex);
+				}
+				//use informationAboutRecordVacination finction for find records of vaccination
 				int info = informationAboutRecordVacination(cityNameString, dateString);
-
 				String messageCD = "  There are " + info + " record(s) of vaccination " + "in " + cityNameString + " "
 						+ "on " + dateString;
+				//add message in texarea
 				texArea.setText(messageCD);
 			}
 		});
@@ -226,7 +205,7 @@ public class Q3 extends JFrame implements ActionListener {
 		colom3.setLayout(new GridLayout(2, 1));
 		JPanel sum3 = new JPanel();
 		sum3.setLayout(new FlowLayout());
-		JLabel labelCityDate = new JLabel("The record of vaccination based upon date");
+		JLabel labelCityDate = new JLabel("The record of vaccination based upon the date");
 		JLabel labelAbDateEnter2 = new JLabel("Enter a date");
 		JTextField dateField3 = new JTextField(10);
 		JButton buttonInformation3 = new JButton("OK");
@@ -246,7 +225,7 @@ public class Q3 extends JFrame implements ActionListener {
 		colom3.add(sum3);
 		textfieldT.add(colom3);
 
-		// panel for information about about record specific city
+		// panel for information about record specific city
 		JPanel colom4 = new JPanel();
 		colom4.setLayout(new GridLayout(2, 1));
 		JPanel sum4 = new JPanel();
@@ -260,7 +239,9 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save city name
 				cityNameString = cityField3.getText();
+				//record of vaccination using inforAboutRecordVaciCity
 				inforAboutRecordVaciCity(cityNameString);
 			}
 		});
@@ -271,7 +252,7 @@ public class Q3 extends JFrame implements ActionListener {
 		colom4.add(sum4);
 		textfieldT.add(colom4);
 
-		// panel for information about about record specific type of viccine
+		// panel for information about  record specific type of vaccine
 		JPanel colom5 = new JPanel();
 		colom5.setLayout(new GridLayout(3, 1));
 		JPanel sum5 = new JPanel();
@@ -285,7 +266,9 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save type vaccine
 				typeNameString = typeField2.getText();
+				//use function inforAboutRecordVaciType
 				inforAboutRecordVaciType(typeNameString);
 			}
 		});
@@ -310,7 +293,7 @@ public class Q3 extends JFrame implements ActionListener {
 		// panel for add information
 		JPanel addInformation = new JPanel();
 		addInformation.setLayout(new GridLayout(6, 1));
-//label for area
+        //label for area
 		JLabel labelAddInformJLabel = new JLabel("Add information");
 		addInformation.add(labelAddInformJLabel);
 
@@ -328,6 +311,7 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//add new record - city name
 				cityNameAdd = cityAddIn.getText();
 			}
 		});
@@ -349,16 +333,15 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//add new information in record - vaccine type
 				int indexIn = typeVacine.getSelectedIndex();
 				for (int i = 0; i < vaccineType.length; i++) {
 					if (indexIn == i) {
 						typeAddString = vaccineType[i];
 					}
 				}
-
 			}
 		});
-//		typeAdd.add(TypeAddButton);
 		addInformation.add(typeAdd);
 
 		// panel for date - add Information about date
@@ -374,6 +357,7 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save information about date in new record
 				dateAddString = dateAddIn.getText();
 			}
 		});
@@ -393,6 +377,7 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save information about number of vaccine in new record
 				numberAddString = Integer.parseInt(numberAddIn.getText());
 			}
 		});
@@ -405,6 +390,7 @@ public class Q3 extends JFrame implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				//save  all information 
 				addVacine(typeAddString, cityNameAdd, dateAddString, numberAddString);
 			}
 		});
@@ -419,86 +405,54 @@ public class Q3 extends JFrame implements ActionListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		this.setResizable(true);
-
 	}
 
 	public static void main(String[] args) {
 		Q3 showGrade = new Q3("Information");
 	}
-
+       //create Vacine with all information
 	public void addVacine(String nameVaccine, String city, String date, int number) {
 		boolean flag = true;
 		try {
 			vaccineNew = new Vaccine(nameVaccine, number, city, date);
 			flag = true;
+			//check for exceptions
 		} catch (IllegalArgumentException ex2) {
 			flag = false;
 			throw new IllegalArgumentException("Number cannot be negative");
-
 		}
 		if (flag) {
-//			stringData.add(vaccineNew.getDate());
-//			vaccineName.add(vaccineNew.getNameVaccine());
-//			vaccineCity.add(vaccineNew.getCity());
-//			numberofDose.add(vaccineNew.getNumber());
-
 			vacineList.add(vaccineNew);
-
 			mp.put(city, vacineList);
-			System.out.println("=======");
-
-			// add for testing
-			for (Entry<String, ArrayList<Vaccine>> mp : mp.entrySet()) {
-				System.out.println(mp.getKey());
-				for (int i = 0; i < vacineList.size(); i++) {
-
-					System.out.println(mp.getValue().get(i).getCity());
-					System.out.println(mp.getValue().get(i).getDate());
-					System.out.println(mp.getValue().get(i).getNameVaccine());
-					System.out.println(mp.getValue().get(i).getNumber());
-				}
-
-			}
 		}
 	}
 
 	// function to find vaccineName for this city
 	public String informationAboutVacination(String city) {
-		String information = "  Theare are many place in " + city + " where you can get a vaccine.";
+		String information = "  There are many places in " + city + " where you can get a vaccine.";
 		return information;
-
 	}
-
+//function for finding the record of vaccination based upon date and name of city
 	public int informationAboutRecordVacination(String city, String date) {
 		int totalNumber = 0;
-
+         //check and find city with date -> find total record 
 		for (Entry<String, ArrayList<Vaccine>> mp : mp.entrySet()) {
 			if (mp.getKey().equals(city)) {
-			for (int i = 0; i < vacineList.size(); i++) {
-				if (mp.getValue().get(i).getCity().equals(city) && mp.getValue().get(i).getDate().equals(date)) {
-//					System.out.println("++++++");
-//					System.out.println(mp.getValue().get(i).getCity());
-//					System.out.println(mp.getValue().get(i).getDate());
-//					if (mp.getValue().get(i).getDate().equals(date)) {
+				for (int i = 0; i < vacineList.size(); i++) {
+					if (mp.getValue().get(i).getCity().equals(city) && mp.getValue().get(i).getDate().equals(date)) {
 						totalNumber = totalNumber + mp.getValue().get(i).getNumber();
-						System.out.println("here ");
 					}
 				}
 			}
-				
-				System.out.println(totalNumber);
-			}
-		
-
+		}
 		return totalNumber;
-
 	}
-
+// function for find Vaccination records of a given date along with the total of each type of vaccine
 	public void inforAboutRecordVaciDate(String date) {
-		int index = 0;
 		String pfizer = "Pfizer";
 		String moderna = "Moderna";
 		String astraZeneca = "AstraZeneca";
+		//total number  type of vaccine
 		int totalNumberPf = 0;
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
@@ -507,10 +461,6 @@ public class Q3 extends JFrame implements ActionListener {
 
 			for (int i = 0; i < vacineList.size(); i++) {
 				if (mp.getValue().get(i).getDate().equals(date)) {
-
-					System.out.println(mp.getValue().get(i).getCity());
-					System.out.println(mp.getValue().get(i).getDate());
-					System.out.println(mp.getValue().get(i).getNameVaccine());
 					if (mp.getValue().get(i).getNameVaccine().equals(pfizer)) {
 						System.out.println("here now");
 						totalNumberPf = totalNumberPf + mp.getValue().get(i).getNumber();
@@ -525,22 +475,21 @@ public class Q3 extends JFrame implements ActionListener {
 						System.out.println(totalNumberAZ);
 					}
 				}
-
 			}
 		}
-
+         //display information in textArea
 		String messageStringPF = " Date: " + date + " total number Pfizer vaccine:  " + totalNumberPf;
 		String messageStringMOd = " Date: " + date + " total number Moderna vaccine:  " + totalNumberMod;
 		String messageStringAZ = " Date: " + date + " total number AstraZeneca vaccine:  " + totalNumberAZ;
 		texArea.setText(messageStringPF + "\n" + messageStringMOd + "\n" + messageStringAZ);
 
 	}
-
-//
+//function calculte vaccination records of a given city along with the total of each type of vaccine.
 	public void inforAboutRecordVaciCity(String city) {
 		String pfizer = "Pfizer";
 		String moderna = "Moderna";
 		String astraZeneca = "AstraZeneca";
+		//total number  type of vaccine
 		int totalNumberPf = 0;
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
@@ -548,35 +497,26 @@ public class Q3 extends JFrame implements ActionListener {
 		for (Entry<String, ArrayList<Vaccine>> mp : mp.entrySet()) {
 			if (mp.getKey().equals(city)) {
 				for (int i = 0; i < vacineList.size(); i++) {
-                   if(mp.getValue().get(i).getCity().equals(city)) {
-					System.out.println(mp.getValue().get(i).getCity());
-					System.out.println(mp.getValue().get(i).getDate());
-					System.out.println(mp.getValue().get(i).getNameVaccine());
-					if (mp.getValue().get(i).getNameVaccine().equals(pfizer)) {
-						System.out.println("here now");
-						totalNumberPf = totalNumberPf + mp.getValue().get(i).getNumber();
-						System.out.println(totalNumberPf);
-					} else if (mp.getValue().get(i).getNameVaccine().equals(moderna)) {
-						System.out.println("here now");
-						totalNumberMod = totalNumberMod + mp.getValue().get(i).getNumber();
-						System.out.println(totalNumberMod);
-					} else if (mp.getValue().get(i).getNameVaccine().equals(astraZeneca)) {
-						System.out.println("here now");
-						totalNumberAZ = totalNumberAZ + mp.getValue().get(i).getNumber();
-						System.out.println(totalNumberAZ);
+					if (mp.getValue().get(i).getCity().equals(city)) {
+						if (mp.getValue().get(i).getNameVaccine().equals(pfizer)) {
+							totalNumberPf = totalNumberPf + mp.getValue().get(i).getNumber();
+						} else if (mp.getValue().get(i).getNameVaccine().equals(moderna)) {
+							totalNumberMod = totalNumberMod + mp.getValue().get(i).getNumber();
+						} else if (mp.getValue().get(i).getNameVaccine().equals(astraZeneca)) {
+							totalNumberAZ = totalNumberAZ + mp.getValue().get(i).getNumber();
+						}
 					}
-                   }
 				}
-
 			}
 		}
-
+		//display information in textArea
 		String messageStringPF = " City: " + city + " total number Pfizer vaccine:  " + totalNumberPf;
 		String messageStringMOd = " City: " + city + " total number Moderna vaccine:  " + totalNumberMod;
 		String messageStringAZ = " City: " + city + " total number AstraZeneca vaccine:  " + totalNumberAZ;
 		texArea.setText(messageStringPF + "\n" + messageStringMOd + "\n" + messageStringAZ);
 	}
 
+	//function calculates Vaccination records of a given type of vaccine along with total of each type of vaccine.
 	public void inforAboutRecordVaciType(String vaccname) {
 		String pfizer = "Pfizer";
 		String moderna = "Moderna";
@@ -590,42 +530,25 @@ public class Q3 extends JFrame implements ActionListener {
 
 			for (int i = 0; i < vacineList.size(); i++) {
 				if (mp.getValue().get(i).getNameVaccine().equals(vaccname)) {
-
-					System.out.println(mp.getValue().get(i).getCity());
-					System.out.println(mp.getValue().get(i).getDate());
-					System.out.println(mp.getValue().get(i).getNameVaccine());
 					if (mp.getValue().get(i).getNameVaccine().equals(pfizer)) {
-						System.out.println("here now");
 						totalNumberPf = totalNumberPf + mp.getValue().get(i).getNumber();
 						totalSpec = totalNumberPf;
-						System.out.println(totalNumberPf);
 					} else if (mp.getValue().get(i).getNameVaccine().equals(moderna)) {
-						System.out.println("here now");
 						totalNumberMod = totalNumberMod + mp.getValue().get(i).getNumber();
 						totalSpec = totalNumberMod;
-						System.out.println(totalNumberMod);
 					} else if (mp.getValue().get(i).getNameVaccine().equals(astraZeneca)) {
-						System.out.println("here now");
 						totalNumberAZ = totalNumberAZ + mp.getValue().get(i).getNumber();
 						totalSpec = totalNumberAZ;
-						System.out.println(totalNumberAZ);
 					}
 				} else {
 					if (mp.getValue().get(i).getNameVaccine().equals(pfizer)) {
-						System.out.println("here now");
 						totalNumberPf = totalNumberPf + mp.getValue().get(i).getNumber();
-						System.out.println(totalNumberPf);
 					} else if (mp.getValue().get(i).getNameVaccine().equals(moderna)) {
-						System.out.println("here now");
 						totalNumberMod = totalNumberMod + mp.getValue().get(i).getNumber();
-						System.out.println(totalNumberMod);
 					} else if (mp.getValue().get(i).getNameVaccine().equals(astraZeneca)) {
-						System.out.println("here now");
 						totalNumberAZ = totalNumberAZ + mp.getValue().get(i).getNumber();
-						System.out.println(totalNumberAZ);
 					}
 				}
-
 			}
 		}
 
@@ -633,19 +556,13 @@ public class Q3 extends JFrame implements ActionListener {
 		String messageStringPF = "  Pfizer vaccine: " + totalNumberPf;
 		String messageStringMOd = "  Moderna vaccine:  " + totalNumberMod;
 		String messageStringAZ = "  AstraZeneca vaccine:  " + totalNumberAZ;
-
+		//display information in textArea
 		texArea.setText(messageStringSp + "\n" + messageStringPF + "\n" + messageStringMOd + "\n" + messageStringAZ);
 	}
-//
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		// TODO Auto-generated method stub
-//		
-//		System.out.println(e.getSource());
-//		
-////		String textField = testField.getText();
-//		
-//		
-//	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
