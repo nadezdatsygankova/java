@@ -103,6 +103,10 @@ public class Q3 extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dateString=dateField2.getText();
+				int info = informationAboutRecordVacination(cityNameString,dateString);
+				
+				String messageCD="  There are "+info+ "record of vaccination "+ "in "+cityNameString+" "+"on "+dateString;
+				texArea.setText(messageCD);
 			}
 		});
 		dateEnter.add(labelAbDateEnter1);
@@ -128,6 +132,7 @@ public class Q3 extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dateString=dateField3.getText();
+				inforAboutRecordVaciDate(dateString);
 			}
 		});
 		sum3.add(labelAbDateEnter2);
@@ -152,6 +157,7 @@ public class Q3 extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				cityNameString=cityField3.getText();
+				inforAboutRecordVaciCity(cityNameString);
 			}
 		});
 		sum4.add(labelAbCityEnter3);
@@ -176,6 +182,7 @@ public class Q3 extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				typeNameString=typeField2.getText();
+				inforAboutRecordVaciType(typeNameString);
 			}
 		});
 		sum5.add(labelAbTypeEnter);
@@ -191,7 +198,7 @@ public class Q3 extends JFrame implements ActionListener {
 		JPanel textareaT = new JPanel();
 		textareaT.setLayout(new FlowLayout());
 
-		texArea = new JTextArea(70, 70);
+		texArea = new JTextArea(40, 40);
 		textareaT.add(texArea);
 		 //add  texArea panel for area
 		area.add(textareaT, BorderLayout.CENTER);
@@ -292,7 +299,14 @@ public class Q3 extends JFrame implements ActionListener {
 		
 		addInformation.add(numberAdd);
 		JButton submiteAddButton = new JButton("Submite");
-		submiteAddButton.addActionListener(this);
+		submiteAddButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				addVacine(typeAddString,cityNameAdd,dateAddString,numberAddString);
+			}
+		});
 		addInformation.add(submiteAddButton);
 		
 
@@ -328,6 +342,11 @@ public class Q3 extends JFrame implements ActionListener {
 			vaccineCity.add(vaccineNew.getCity());
 			numberofDose.add(vaccineNew.getNumber());
 		}
+		
+		System.out.println(stringData);
+		System.out.println(vaccineName);
+		System.out.println(vaccineCity);
+		System.out.println(numberofDose);
 
 	}
 
@@ -349,7 +368,7 @@ public class Q3 extends JFrame implements ActionListener {
 
 	}
 
-	public void informationAboutRecordVacination(String city, String date) {
+	public int informationAboutRecordVacination(String city, String date) {
 		int index = 0;
 		int totalNumber = 0;
 		for (int i = 1; i < vaccineCity.size(); i++) {
@@ -360,7 +379,7 @@ public class Q3 extends JFrame implements ActionListener {
 				}
 			}
 		}
-		System.out.println(totalNumber);// add in text area????
+		return totalNumber;// add in text area????
 
 	}
 
@@ -384,9 +403,11 @@ public class Q3 extends JFrame implements ActionListener {
 				}
 			}
 		}
-		System.out.println("totalNumberPf" + totalNumberPf);// add in text area????
-		System.out.println("totalNumberMod" + totalNumberMod);
-		System.out.println("totalNumberAZ" + totalNumberAZ);
+		String messageStringPF=" Date: "+ date+ " total number Pfizer vaccine:  "+totalNumberPf;
+		String messageStringMOd=" Date: "+ date+ " total number Moderna vaccine:  "+totalNumberMod;
+		String messageStringAZ=" Date: "+ date+ " total number AstraZeneca vaccine:  "+totalNumberAZ;
+		texArea.setText(messageStringPF+"\n"+messageStringMOd+"\n"+messageStringAZ);
+	
 	}
 
 	public void inforAboutRecordVaciCity(String city) {
@@ -409,9 +430,10 @@ public class Q3 extends JFrame implements ActionListener {
 				}
 			}
 		}
-		System.out.println("totalNumberPf" + totalNumberPf);// add in text area????
-		System.out.println("totalNumberMod" + totalNumberMod);
-		System.out.println("totalNumberAZ" + totalNumberAZ);
+		String messageStringPF=" City: "+ city+ " total number Pfizer vaccine:  "+totalNumberPf;
+		String messageStringMOd=" City: "+ city+ " total number Moderna vaccine:  "+totalNumberMod;
+		String messageStringAZ=" City: "+ city+ " total number AstraZeneca vaccine:  "+totalNumberAZ;
+		texArea.setText(messageStringPF+"\n"+messageStringMOd+"\n"+messageStringAZ);
 	}
 
 	public void inforAboutRecordVaciType(String vaccname) {
@@ -422,9 +444,13 @@ public class Q3 extends JFrame implements ActionListener {
 		int totalNumberPf = 0;
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
+		int totalSpec=0;
 		for (int i = 1; i < vaccineName.size(); i++) {
 			if (vaccname == vaccineName.get(i)) {
 				index = i;
+				totalSpec=totalSpec+numberofDose.get(index);
+			}
+			else {
 				if (vaccineName.get(index) == pfizer) {
 					totalNumberPf = totalNumberPf + numberofDose.get(index);
 				} else if (vaccineName.get(index) == moderna) {
@@ -434,9 +460,14 @@ public class Q3 extends JFrame implements ActionListener {
 				}
 			}
 		}
-		System.out.println("totalNumberPf" + totalNumberPf);// add in text area????
-		System.out.println("totalNumberMod" + totalNumberMod);
-		System.out.println("totalNumberAZ" + totalNumberAZ);
+		
+	
+		String messageStringSp=" Vaccine: "+ vaccname+ " total number :  "+totalSpec;
+		String messageStringPF="  Pfizer vaccine: "+totalNumberPf;
+		String messageStringMOd="  Moderna vaccine:  "+totalNumberMod;
+		String messageStringAZ="  AstraZeneca vaccine:  "+totalNumberAZ;
+		
+		texArea.setText(messageStringSp+"\n"+messageStringPF+"\n"+messageStringMOd+"\n"+messageStringAZ);
 	}
 
 	@Override
