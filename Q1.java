@@ -17,7 +17,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
-public class Q2 extends Application{
+public class Q1 extends Application{
 	
 	 @Override 
 	 public void start(Stage primarystage) {
