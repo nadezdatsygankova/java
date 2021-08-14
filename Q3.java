@@ -4,7 +4,12 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
+
 import javax.swing.*;
+
+
+
 
 public class Q3 extends JFrame implements ActionListener {
 
@@ -41,6 +46,17 @@ public class Q3 extends JFrame implements ActionListener {
 		vaccineName.add("Pfizer");
 		vaccineCity.add("Toronto");
 		numberofDose.add(5);
+		vaccineNew = new Vaccine("Pfizer", 4, "Toronto", "25/12/2021");
+		mp.put("Toronto", vaccineNew);
+		
+		for (String i : mp.keySet()) {
+			  System.out.println(i);
+			}
+		for (Vaccine i : mp.values()) {
+			  System.out.println(i.getCity());
+			  System.out.println(i.getDate());
+			  System.out.println(i.getNameVaccine());
+			}
 		
 		
 		// panel for all application
@@ -350,12 +366,20 @@ public class Q3 extends JFrame implements ActionListener {
 			vaccineName.add(vaccineNew.getNameVaccine());
 			vaccineCity.add(vaccineNew.getCity());
 			numberofDose.add(vaccineNew.getNumber());
+			mp.put(city, vaccineNew);
+			System.out.println("=======");
+			for (String i : mp.keySet()) {
+				  System.out.println(i);
+				}
+			for (Vaccine i : mp.values()) {
+				  System.out.println(i.getCity());
+				  System.out.println(i.getDate());
+				  System.out.println(i.getNameVaccine());
+				}
+			
 		}
 		
-		System.out.println(stringData);
-		System.out.println(vaccineName);
-		System.out.println(vaccineCity);
-		System.out.println(numberofDose);
+
 
 	}
 
@@ -381,17 +405,17 @@ public class Q3 extends JFrame implements ActionListener {
 		int index = 0;
 		int totalNumber = 0;
 
-		for (int i = 0; i < vaccineCity.size(); i++) {
-			if (city == vaccineCity.get(i)) {
-				System.out.println("i am here");
-				if (date == stringData.get(i)) {
-				
-					totalNumber = totalNumber + numberofDose.get(i);
-					System.out.println(totalNumber);
-				}
+		
+		for (Entry<String, Vaccine> mp : mp.entrySet()) {
+			if(mp.getKey().equals(city) && mp.getValue().getDate().equals(date))
+			{
+				System.out.println("here ");				
+					totalNumber=totalNumber+mp.getValue().getNumber();
 			}
+		    System.out.println(mp.getKey()+" : "+mp.getValue().getCity());
 		}
-		return totalNumber;// add in text area????
+	
+		return totalNumber;
 
 	}
 
@@ -403,18 +427,24 @@ public class Q3 extends JFrame implements ActionListener {
 		int totalNumberPf = 0;
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
-		for (int i = 0; i < stringData.size(); i++) {
-			if (date == stringData.get(i)) {
-				index = i;
-				if (vaccineName.get(index) == pfizer) {
-					totalNumberPf = totalNumberPf + numberofDose.get(index);
-				} else if (vaccineName.get(index) == moderna) {
-					totalNumberMod = totalNumberMod + numberofDose.get(index);
-				} else if (vaccineName.get(index) == astraZeneca) {
-					totalNumberAZ = totalNumberAZ + numberofDose.get(index);
-				}
+		
+		for (Entry<String, Vaccine> mp : mp.entrySet()) {
+			if(mp.getValue().getDate().equals(date) && (mp.getValue().getNameVaccine().equals(pfizer)))
+			{
+				System.out.println("here now");				
+				totalNumberPf = totalNumberPf+mp.getValue().getNumber();
+				System.out.println(totalNumberPf);
 			}
+			else if(mp.getValue().getDate().equals(date) && (mp.getValue().getNameVaccine().equals(moderna))) {
+				totalNumberMod = totalNumberMod+mp.getValue().getNumber();
+			}
+			else if(mp.getValue().getDate().equals(date) && (mp.getValue().getNameVaccine().equals(astraZeneca))) {
+				totalNumberAZ = totalNumberAZ+mp.getValue().getNumber();
+			}
+		    
 		}
+		
+		
 		String messageStringPF=" Date: "+ date+ " total number Pfizer vaccine:  "+totalNumberPf;
 		String messageStringMOd=" Date: "+ date+ " total number Moderna vaccine:  "+totalNumberMod;
 		String messageStringAZ=" Date: "+ date+ " total number AstraZeneca vaccine:  "+totalNumberAZ;
@@ -430,18 +460,23 @@ public class Q3 extends JFrame implements ActionListener {
 		int totalNumberPf = 0;
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
-		for (int i = 0; i < vaccineCity.size(); i++) {
-			if (city == vaccineCity.get(i)) {
-				index = i;
-				if (vaccineName.get(index) == pfizer) {
-					totalNumberPf = totalNumberPf + numberofDose.get(index);
-				} else if (vaccineName.get(index) == moderna) {
-					totalNumberMod = totalNumberMod + numberofDose.get(index);
-				} else if (vaccineName.get(index) == astraZeneca) {
-					totalNumberAZ = totalNumberAZ + numberofDose.get(index);
-				}
+		
+		for (Entry<String, Vaccine> mp : mp.entrySet()) {
+			if(mp.getValue().getCity().equals(city) && (mp.getValue().getNameVaccine().equals(pfizer)))
+			{
+				System.out.println("here now");				
+				totalNumberPf = totalNumberPf+mp.getValue().getNumber();
 			}
+			else if(mp.getValue().getCity().equals(city) && (mp.getValue().getNameVaccine().equals(moderna))) {
+				totalNumberMod = totalNumberMod+mp.getValue().getNumber();
+			}
+			else if(mp.getValue().getCity().equals(city) && (mp.getValue().getNameVaccine().equals(astraZeneca))) {
+				totalNumberAZ = totalNumberAZ+mp.getValue().getNumber();
+			}
+		    
 		}
+		
+		
 		String messageStringPF=" City: "+ city+ " total number Pfizer vaccine:  "+totalNumberPf;
 		String messageStringMOd=" City: "+ city+ " total number Moderna vaccine:  "+totalNumberMod;
 		String messageStringAZ=" City: "+ city+ " total number AstraZeneca vaccine:  "+totalNumberAZ;
@@ -457,21 +492,27 @@ public class Q3 extends JFrame implements ActionListener {
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
 		int totalSpec=0;
-		for (int i = 0; i < vaccineName.size(); i++) {
-			if (vaccname == vaccineName.get(i)) {
-				index = i;
-				totalSpec=totalSpec+numberofDose.get(index);
+		
+		for (Entry<String, Vaccine> mp : mp.entrySet()) {
+			if(mp.getValue().getNameVaccine().equals(vaccname) && (mp.getValue().getNameVaccine().equals(pfizer)))
+			{
+				System.out.println("here now");				
+				totalNumberPf = totalNumberPf+mp.getValue().getNumber();
 			}
-			else {
-				if (vaccineName.get(index) == pfizer) {
-					totalNumberPf = totalNumberPf + numberofDose.get(index);
-				} else if (vaccineName.get(index) == moderna) {
-					totalNumberMod = totalNumberMod + numberofDose.get(index);
-				} else if (vaccineName.get(index) == astraZeneca) {
-					totalNumberAZ = totalNumberAZ + numberofDose.get(index);
-				}
+			else if(mp.getValue().getNameVaccine().equals(vaccname) && (mp.getValue().getNameVaccine().equals(moderna))) {
+				totalNumberMod = totalNumberMod+mp.getValue().getNumber();
 			}
+			else if(mp.getValue().getNameVaccine().equals(vaccname) && (mp.getValue().getNameVaccine().equals(astraZeneca))) {
+				totalNumberAZ = totalNumberAZ+mp.getValue().getNumber();
+			}
+		    
 		}
+		
+		
+		
+		
+		
+		
 		
 	
 		String messageStringSp=" Vaccine: "+ vaccname+ " total number :  "+totalSpec;
