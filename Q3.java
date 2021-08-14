@@ -9,6 +9,7 @@ import javax.swing.*;
 public class Q3 extends JFrame implements ActionListener {
 
 	private static Vaccine vaccineNew;
+	Map<String,Vaccine> mp = new HashMap<String,Vaccine>();
 	private static ArrayList<String> stringData = new ArrayList<String>();
 	private static ArrayList<String> vaccineName = new ArrayList<String>();
 	private static ArrayList<String> vaccineCity = new ArrayList<String>();
@@ -34,6 +35,14 @@ public class Q3 extends JFrame implements ActionListener {
 //	Date date = format.parse(string);
 
 	public Q3(String title) {
+		
+		// for test
+		stringData.add("25/05/2021");
+		vaccineName.add("Pfizer");
+		vaccineCity.add("Toronto");
+		numberofDose.add(5);
+		
+		
 		// panel for all application
 		area = new JPanel();
 		area.setLayout(new BorderLayout());
@@ -371,11 +380,14 @@ public class Q3 extends JFrame implements ActionListener {
 	public int informationAboutRecordVacination(String city, String date) {
 		int index = 0;
 		int totalNumber = 0;
-		for (int i = 1; i < vaccineCity.size(); i++) {
+
+		for (int i = 0; i < vaccineCity.size(); i++) {
 			if (city == vaccineCity.get(i)) {
+				System.out.println("i am here");
 				if (date == stringData.get(i)) {
-					index = i;
-					totalNumber = totalNumber + numberofDose.get(index);
+				
+					totalNumber = totalNumber + numberofDose.get(i);
+					System.out.println(totalNumber);
 				}
 			}
 		}
@@ -391,7 +403,7 @@ public class Q3 extends JFrame implements ActionListener {
 		int totalNumberPf = 0;
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
-		for (int i = 1; i < stringData.size(); i++) {
+		for (int i = 0; i < stringData.size(); i++) {
 			if (date == stringData.get(i)) {
 				index = i;
 				if (vaccineName.get(index) == pfizer) {
@@ -418,7 +430,7 @@ public class Q3 extends JFrame implements ActionListener {
 		int totalNumberPf = 0;
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
-		for (int i = 1; i < vaccineCity.size(); i++) {
+		for (int i = 0; i < vaccineCity.size(); i++) {
 			if (city == vaccineCity.get(i)) {
 				index = i;
 				if (vaccineName.get(index) == pfizer) {
@@ -445,7 +457,7 @@ public class Q3 extends JFrame implements ActionListener {
 		int totalNumberMod = 0;
 		int totalNumberAZ = 0;
 		int totalSpec=0;
-		for (int i = 1; i < vaccineName.size(); i++) {
+		for (int i = 0; i < vaccineName.size(); i++) {
 			if (vaccname == vaccineName.get(i)) {
 				index = i;
 				totalSpec=totalSpec+numberofDose.get(index);
