@@ -1,3 +1,77 @@
+/*//Author: Nadezda Tsygankova
+//ID: 152949194
+//Final exam  -Q3
+ Develop a Menu Driven 3-tier GUI application, to manage the vaccination data for covid-19
+vaccine ( You should consider the following points in your design). The design could be either
+done via JavaFx or Swing..
+Ministry of Health of Ontario wants to maintain the following information i.e., for each date different
+types of vaccine doses administered in each city:
+ * Date of vaccination – required and in mm/dd/yyyy format.
+• Name of city – required
+• Number of Pfizer vaccine doses administered – integer and 0 or above and required.
+• Number of Moderna vaccine doses administered – integer and 0 or above and required.
+• Number of AstraZeneca vaccine doses administered – integer and 0 or above and required.
+• The user can take any of the three vaccines ( Moderna, Pfizer, AstraZeneca)
+User should be able to perform the following operations using your application:
+- Should accept the information of a city about covid-19 vaccination. If valid information is
+provided, otherwise provide proper feedback to user (use any comments)
+- Should be able to find and display the record of vaccination based upon date and name of city,
+both i.e., date and name are required.
+- Should be able to display vaccination doses administered using following scenarios:
+o Vaccination records of a given date along with the total of each type of vaccine.
+o Vaccination records of a given city along with the total of each type of vaccine.
+Vaccination records of a given type of vaccine along with total of each type of vaccine.
+ * 
+ * FOR TEST
+ * 1)
+ *  Information above covid-19 vaccianation 
+ *  enter: Toronto  
+ *  Answer: Theare are many place in Toronto where you can get a vaccine.
+ * 2)
+ * The record of vaccination based upon date and name of city
+ * enter: Toronto, 25/12/2021
+ * 
+ * Answer: 4 records
+ * 
+ * 3) 
+ * The record of vaccination based upon date
+ * enter: 25/12/2021
+ * 
+ * Answer: 4 records
+ * 4) The record of vaccination based upon city
+ * enter: Toronto
+ * 
+ * Answer: Pfizer - 4 records
+ * 5)The record of vaccination based upon type vaccine
+ * enter: 25/12/2021
+ * 
+ * Answer: 4 records
+ * 6)Add information
+ * City -> Toronto -> enter Ok
+ * Type of vaccine -> Pfizer 
+ * Date of vaccine -> 25/12/2021
+ * Number of vaccine ->150
+ * 
+ * 7) Add information
+ * City -> Toronto -> enter Ok
+ * Type of vaccine -> Moderna 
+ * Date of vaccine -> 25/12/2021
+ * Number of vaccine ->150
+ * 8)Add information
+ * City -> Toronto -> enter Ok
+ * Type of vaccine -> Moderna 
+ * Date of vaccine -> 15/15/2021
+ * Number of vaccine ->1500
+ * 
+ * 9)Add information
+ * City -> Ottawa -> enter Ok
+ * Type of vaccine -> Moderna 
+ * Date of vaccine -> 15/15/2021
+ * Number of vaccine ->3700
+ * */
+
+
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -134,7 +208,7 @@ public class Q3 extends JFrame implements ActionListener {
 				dateString = dateField2.getText();
 				int info = informationAboutRecordVacination(cityNameString, dateString);
 
-				String messageCD = "  There are " + info + " record of vaccination " + "in " + cityNameString + " "
+				String messageCD = "  There are " + info + " record(s) of vaccination " + "in " + cityNameString + " "
 						+ "on " + dateString;
 				texArea.setText(messageCD);
 			}
@@ -202,7 +276,7 @@ public class Q3 extends JFrame implements ActionListener {
 		colom5.setLayout(new GridLayout(3, 1));
 		JPanel sum5 = new JPanel();
 		sum5.setLayout(new FlowLayout());
-		JLabel labelCityRecType = new JLabel("The record of vaccination based upon type viccine");
+		JLabel labelCityRecType = new JLabel("The record of vaccination based upon type vaccine");
 		JLabel labelAbTypeEnter = new JLabel("Enter a type of vaccine");
 		JTextField typeField2 = new JTextField(10);
 		JButton buttonInformation5 = new JButton("OK");
@@ -474,7 +548,7 @@ public class Q3 extends JFrame implements ActionListener {
 		for (Entry<String, ArrayList<Vaccine>> mp : mp.entrySet()) {
 			if (mp.getKey().equals(city)) {
 				for (int i = 0; i < vacineList.size(); i++) {
-
+                   if(mp.getValue().get(i).getCity().equals(city)) {
 					System.out.println(mp.getValue().get(i).getCity());
 					System.out.println(mp.getValue().get(i).getDate());
 					System.out.println(mp.getValue().get(i).getNameVaccine());
@@ -491,6 +565,7 @@ public class Q3 extends JFrame implements ActionListener {
 						totalNumberAZ = totalNumberAZ + mp.getValue().get(i).getNumber();
 						System.out.println(totalNumberAZ);
 					}
+                   }
 				}
 
 			}
