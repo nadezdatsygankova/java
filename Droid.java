@@ -15,10 +15,9 @@ public class Droid {
     System.out.println("Level battery:" + batteryLevel);
   }
 
-  public void energyTransfer(Droid aux){
-     if(this.batteryLevel == 60 && aux.batteryLevel >= 20){
-       this.batteryLevel += 20;
-       aux.batteryLevel -= 20;
+  public void energyTransfer(int power, Droid transferTo){
+     batteryLevel -= power;
+    transferTo.batteryLevel += power;
     }
   }
 
@@ -36,6 +35,6 @@ public class Droid {
    System.out.println(newDroid2);
    newDroid2.performTask("song");
    newDroid2.energyReport();
-   newDroid2.energyTransfer(newDroid);
+   newDroid2.energyTransfer(20,newDroid);
   }
 }
