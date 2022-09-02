@@ -1,6 +1,5 @@
 /*//Author: Nadezda Tsygankova
-//ID: 152949194
-//Assignment#2 -Part2 Page 635, Question 14.9(25%)
+
  Create the following GUI. You do not have to provide any functionality.
  * 
  * 
